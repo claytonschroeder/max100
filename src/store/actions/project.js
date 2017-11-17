@@ -1,14 +1,8 @@
 import * as actionTypes from './actionTypes';
 
-export const newRow = () => {
+export const updateTree = (treeData) => {
     return {
-        type: actionTypes.NEW_ROW
-    };
-};
-
-export const removeRow = (id) => {
-    return {
-        type: actionTypes.REMOVE_ROW,
-        id: id
+        type: actionTypes.UPDATE_TREE,
+        treeData: treeData
     };
 };

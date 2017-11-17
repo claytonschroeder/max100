@@ -5,6 +5,5 @@ export {
     decrement
 } from './counter';
 export {
-    newRow,
-    removeRow
+    updateTree
 } from './project';

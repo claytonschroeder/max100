@@ -15,12 +15,11 @@
     margin: auto;
     padding: 10px;
 }
-.Objectives {
-    width: 25%;
-    float: left;
+.ObjContainter {
+
 }
-.Alternatives {
-    margin-left: 25%;
+.AltContainter {
+
 }
 
 .Alternative {

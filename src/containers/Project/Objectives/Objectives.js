@@ -1,83 +1,147 @@
 import React, { Component } from 'react';
+import SortableTree, { addNodeUnderParent, removeNodeAtPath, changeNodeAtPath } from 'react-sortable-tree';
+import * as actionCreators from '../../../store/actions/index';
+import { connect } from 'react-redux';
+import classes from './Objectives.css'
 
-import classes from '../Project.css'
+const uuidv1 = require('uuid/v1');
 
 class Objectives extends Component {
+    state = {
+        nodeInfo: null,
+        path: null
+    }
     render () {
+        console.log(this.state)
+        const getNodeKey = ({ treeIndex }) => treeIndex;
         return (
-            <div className={ classes.Objectives }>
-                <h3>Objectives</h3>
-                <div className={ classes.Primary }>
-                    <h4>Objective 1</h4>
-                    <div className={ classes.Secondary }>
-                        <h4>Objective 1.1</h4>
-                            <div className={ classes.Tertiary }>
-                                <h4>Objective 1.1.1</h4>  
-                                <h4>Objective 1.1.2</h4>  
-                                <h4>Objective 1.1.3</h4>  
-                                <h4>Objective 1.1.4</h4>      
-                            </div>
-                        <h4>Objective 1.2</h4>
-                        <h4>Objective 1.3</h4>
-                            <div className={ classes.Tertiary }>
-                                <h4>Objective 1.3.1</h4>  
-                                <h4>Objective 1.3.2</h4>  
-                                <h4>Objective 1.3.3</h4>    
-                            </div>
-                    </div>
+            <div className={ classes.Container }>
+                <div className={ classes.Objectives }>
+                    <SortableTree
+                        treeData={this.props.tree}
+                        onChange={treeData => this.props.onTreeUpdate({ treeData })}
+                        generateNodeProps={({ node, path }) => ({
+                        title: (
+                            <input
+                            value={node.title}
+                            onChange={event => {
+                                const title = event.target.value;
+                                this.props.onTreeUpdate({
+                                treeData: changeNodeAtPath({
+                                    treeData: this.props.tree,
+                                    path,
+                                    getNodeKey,
+                                    newNode: { 
+                                        ...node,
+                                        title 
+                                    },
+                                }),
+                                });
+                            }}
+                            />
+                        ),
+                        buttons: [
+                            <button
+                                onClick={() => {
+                                    const newChildId = uuidv1();
+                                    this.props.onTreeUpdate({
+                                    treeData: addNodeUnderParent({
+                                        treeData: this.props.tree,
+                                        parentKey: path[path.length - 1],
+                                        expandParent: true,
+                                        getNodeKey,
+                                        newNode: {
+                                            id: newChildId,
+                                            dataConfig: {
+                                                pm: null,
+                                                units: null,
+                                                direction: null,
+                                                msic: null,
+                                                type: null,
+                                                uncertainty: null,
+                                                labels: null,
+                                                valueFunc: null
+                                            }
+                                        },
+                                    }).treeData,
+                                    })
+                                }}
+                            >
+                            Add Child
+                            </button>,
+                            <button
+                                onClick={() => {
+                                    this.props.onTreeUpdate({
+                                        treeData: removeNodeAtPath({
+                                            treeData: this.props.tree,
+                                            path,
+                                            getNodeKey,
+                                        }),
+                                    })
+                                }}
+                            >
+                            Remove
+                            </button>,
+                            <button
+                                disabled={ node.children && node.children.length > 0 ? true : false }
+                                onClick={event => {
+                                    this.setState({
+                                        nodeInfo: {...node},
+                                        path: [...path],
+                                    })
+                                    // this.props.onTreeUpdate({
+                                    // treeData: changeNodeAtPath({
+                                    //     treeData: this.props.tree,
+                                    //     path,
+                                    //     getNodeKey,
+                                    //     newNode: { ...node, title },
+                                    // }),
+                                    // });
+                                }}
+                                >
+                            Add Info
+                            </button>,
+                        ],
+                        })}
+                    />
                 </div>
-                <div className={ classes.Primary }>
-                    <h4>Objective 2</h4>
-                    <div className={ classes.Secondary }>
-                        <h4>Objective 2.1</h4>
-                            <div className={ classes.Tertiary }>
-                                <h4>Objective 2.1.1</h4>  
-                                <h4>Objective 2.1.2</h4>  
-                                <h4>Objective 2.1.3</h4>  
-                                <h4>Objective 2.1.4</h4>      
-                            </div>
-                        <h4>Objective 2.2</h4>
-                        <h4>Objective 2.3</h4>
-                            <div className={ classes.Tertiary }>
-                                <h4>Objective 2.3.1</h4>  
-                                <h4>Objective 2.3.2</h4>  
-                                <h4>Objective 2.3.3</h4>  
-                                <h4>Objective 2.3.4</h4>      
-                            </div>
-                        <h4>Objective 2.4</h4>
-                    </div>
-                </div>
-                <div className={ classes.Primary }>
-                    <h4>Objective 3</h4>
-                    <div className={ classes.Secondary }>
-                        <h4>Objective 3.1</h4>
-                        <h4>Objective 3.2</h4>
-                    </div>
-                </div>
-                <div className={ classes.Primary }>
-                    <h4>Objective 4</h4>
-                    <div className={ classes.Secondary }>
-                        <h4>Objective 4.1</h4>
-                        <h4>Objective 4.2</h4>
-                        <h4>Objective 4.3</h4>
-                    </div>
-                </div>
-                <div className={ classes.Primary }>
-                    <h4>Objective 5</h4>
-                    <div className={ classes.Secondary }>
-                        <h4>Objective 5.1</h4>
-                    </div>
-                </div>
-                <div className={ classes.Primary }>
-                    <h4>Objective 6</h4>
-                    <div className={ classes.Secondary }>
-                        <h4>Objective 6.1</h4>
-                    </div>
+                <div className={ classes.ObjectivesTools }>
+                    <button 
+                        onClick={() => {
+                            const newObjId = uuidv1();
+                            this.props.onTreeUpdate({treeData: this.props.tree.concat({
+                                id: newObjId, 
+                                dataConfig: {
+                                    pm: null,
+                                    units: null,
+                                    direction: null,
+                                    msic: null,
+                                    type: null,
+                                    uncertainty: null,
+                                    labels: null,
+                                    valueFunc: null
+                                }
+                            })
+                        })
+                    }}>
+                        Add New Objective
+                    </button>
                 </div>
             </div>
- 
         );
     }
 }
 
-export default Objectives;
+const mapStateToProps = state => {
+    return {
+        tree: state.proj.treeData
+    }
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onTreeUpdate: (treeData) => dispatch(actionCreators.updateTree(treeData))
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Objectives);

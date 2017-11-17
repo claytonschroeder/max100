@@ -1,0 +1,17 @@
+.Container {
+    display: flex;
+}
+
+.Objectives {
+    height: 600px;
+    padding: 10px;
+    box-shadow: rgb(221, 221, 221) 0px 2px 2px;
+    width: 60%;
+}
+
+.ObjectivesTools {
+    height: 600px;
+    padding: 10px;
+    box-shadow: rgb(221, 221, 221) 0px 2px 2px;
+    width: 40%;
+}

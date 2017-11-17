@@ -5,5 +5,4 @@ export const ADD = 'ADD';
 export const SUBTRACT = 'SUBTRACT';
 
 //project actions
-export const NEW_ROW = 'NEW_ROW';
-export const REMOVE_ROW = 'REMOVE_ROW';
+export const UPDATE_TREE = 'UPDATE_TREE';
