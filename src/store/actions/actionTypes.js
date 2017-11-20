@@ -6,3 +6,5 @@ export const SUBTRACT = 'SUBTRACT';
 
 //project actions
 export const UPDATE_TREE = 'UPDATE_TREE';
+export const CHANGE_EDIT_NODE = 'CHANGE_EDIT_NODE';
+export const UPDATE_EDIT_NODE_CONTROLS = 'UPDATE_EDIT_NODE_CONTROLS';

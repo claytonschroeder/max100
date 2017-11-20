@@ -5,5 +5,7 @@ export {
     decrement
 } from './counter';
 export {
-    updateTree
+    updateTree,
+    changeEditNode,
+    updateEditNodeControls
 } from './project';

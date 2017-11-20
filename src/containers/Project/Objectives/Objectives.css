@@ -5,13 +5,25 @@
 .Objectives {
     height: 600px;
     padding: 10px;
-    box-shadow: rgb(221, 221, 221) 0px 2px 2px;
+    box-shadow: 1px 1px 1px 1px #ddd;
     width: 60%;
+    margin-right: 5px;
 }
 
 .ObjectivesTools {
     height: 600px;
     padding: 10px;
-    box-shadow: rgb(221, 221, 221) 0px 2px 2px;
+    box-shadow: 1px 1px 1px 1px #ddd;
     width: 40%;
+}
+
+.ObjectivesButtons {
+    padding: 10px;
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+.Active {
+    border: 2px solid green;
 }
