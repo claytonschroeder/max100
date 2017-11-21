@@ -6,6 +6,5 @@ export {
 } from './counter';
 export {
     updateTree,
-    changeEditNode,
-    updateEditNodeControls
+    changeEditNode
 } from './project';

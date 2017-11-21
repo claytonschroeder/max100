@@ -5,9 +5,8 @@
 }
 
 .Label {
-    font-weight: bold;
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
 }
 
 .InputElement {
@@ -23,7 +22,6 @@
 
 .InputElement:focus {
     outline: none;
-    background-color: #ccc;
 }
 
 .Invalid {

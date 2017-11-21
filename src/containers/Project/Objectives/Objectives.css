@@ -15,6 +15,7 @@
     padding: 10px;
     box-shadow: 1px 1px 1px 1px #ddd;
     width: 40%;
+    overflow: scroll;
 }
 
 .ObjectivesButtons {
@@ -25,5 +26,19 @@
 }
 
 .Active {
-    border: 2px solid green;
+    box-shadow: 0px 0px 5px 2px green;
+}
+
+.ShowHide {
+    position: fixed;
+    left: 0px;
+    visibility: visible !important;
+}
+
+.Hidden {
+    visibility: hidden;
+}
+
+.Push {
+    left: '30px';
 }

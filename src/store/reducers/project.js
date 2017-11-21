@@ -13,9 +13,6 @@ const reducer = ( state = initialState, action ) => {
             return updateObject(state, mergedObj);
         case actionTypes.CHANGE_EDIT_NODE:
             return updateObject(state, action.editNode);
-        case actionTypes.UPDATE_EDIT_NODE_CONTROLS:
-            const updatedEditNode = updateObject(state.editNode, action.updatedControls)
-            return updateObject(state, {editNode: updatedEditNode});
         default: return state
     }
 };

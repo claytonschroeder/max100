@@ -7,7 +7,6 @@ const navItems = (props) => {
     return (
         <ul className={classes.ProjectNavItems}>
             <ProjectNavItem link={`${props.match.url}/define-objectives`}>Define Objectives</ProjectNavItem>
-            <ProjectNavItem link={`${props.match.url}/define-performace`}>Define Performance</ProjectNavItem>
             <ProjectNavItem link={`${props.match.url}/define-alternatives`}>Define Alternatives</ProjectNavItem>
             <ProjectNavItem link={`${props.match.url}/results`}>View Results</ProjectNavItem>
         </ul>

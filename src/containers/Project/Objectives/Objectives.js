@@ -8,7 +8,8 @@ import ObjectivePerformance from './ObjectivesPerformace/ObjectivePerformance';
 
 import classes from './Objectives.css';
 
-import { newNode } from './ObjectiveHelpers/NewNode';
+import { newNode } from './ObjectiveHelpers/ObjectiveHelpers';
+
 
 class Objectives extends Component {
     expand = (expanded) => {
@@ -20,7 +21,7 @@ class Objectives extends Component {
         });
     }
     
-    expandAll =() => {
+    expandAll = () => {
         this.expand(true);
     }
     
@@ -30,17 +31,25 @@ class Objectives extends Component {
 
     render () {
         const getNodeKey = ({ treeIndex }) => treeIndex;
-        const isActive = (nodeId) => {
+
+        const getClasses = (nodeId, hide) => {
+            const classNames = [{classes: classes.Push}];
             const editNodeId = this.props.editNode && this.props.editNode.id ? this.props.editNode.id : null;
             if(editNodeId === nodeId){
-                return { boxShadow: '0px 0px 5px 3px green'}
-            } else {
-                return null
+                classNames.push({classes: classes.Active})
             }
-        }
+            if(hide){
+                classNames.push({classes: classes.Hidden})
+            }
+            return classNames.map(el => {
+                return el.classes
+            }).join(' ')
+        };
+
         const objPerformance = this.props.editNode ? (
             <ObjectivePerformance editNode={ this.props.editNode }/>
         ) : null;
+
         return (
             <div className={ classes.Container }>
                 <div className={ classes.Objectives }>
@@ -58,13 +67,24 @@ class Objectives extends Component {
                     </div>
                     <SortableTree
                         style={ {height: '90%'} }
+                        innerStyle={{paddingLeft: '30px'}}
                         treeData={this.props.tree}
                         onChange={treeData => this.props.onTreeUpdate({ treeData })}
                         generateNodeProps={({ node, path }) => ({
-                            style: (isActive(node.id)),
+                            className: (getClasses(node.id, node.hide)),
                             title: (
                                 <input
                                     value={node.title}
+                                    onFocus={() => this.props.onChangeEditNode({
+                                        editNode: node,
+                                        path,
+                                        getNodeKey
+                                    })}
+                                    onClick={() => this.props.onChangeEditNode({
+                                        editNode: node,
+                                        path,
+                                        getNodeKey
+                                    })}
                                     onChange={event => {
                                         const title = event.target.value;
                                         this.props.onTreeUpdate({
@@ -112,17 +132,17 @@ class Objectives extends Component {
                                 </button>,
                                 <button
                                     onClick={() => {
+                                        this.props.onChangeEditNode({
+                                            editNode: null,
+                                            path,
+                                            getNodeKey
+                                        });
                                         this.props.onTreeUpdate({
                                             treeData: removeNodeAtPath({
                                                 treeData: this.props.tree,
                                                 path,
                                                 getNodeKey,
                                             }),
-                                        });
-                                        this.props.onChangeEditNode({
-                                            editNode: null,
-                                            path,
-                                            getNodeKey
                                         });
                                     }}
                                 >
@@ -140,6 +160,24 @@ class Objectives extends Component {
                                 >
                                     Edit Info
                                 </button>,
+                                <button
+                                    className={ classes.ShowHide }
+                                    onClick={() => {
+                                        this.props.onTreeUpdate({
+                                            treeData: changeNodeAtPath({
+                                                treeData: this.props.tree,
+                                                path,
+                                                getNodeKey,
+                                                newNode: { 
+                                                    ...node,
+                                                    hide: !node.hide 
+                                                },
+                                            }),
+                                        });
+                                    }}
+                                >
+                                    { !node.hide ? "Hide" : "Show"}
+                                </button>
                             ],
                         })}
                     />

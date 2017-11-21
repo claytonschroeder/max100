@@ -13,11 +13,3 @@ export const changeEditNode = (editNode) => {
         editNode: editNode
     };
 };
-
-export const updateEditNodeControls = (updatedContols) => {
-    console.log(updatedContols)
-    return {
-        type: actionTypes.UPDATE_EDIT_NODE_CONTROLS,
-        updatedControls: updatedContols
-    };
-};

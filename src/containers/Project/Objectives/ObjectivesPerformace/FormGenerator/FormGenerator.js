@@ -4,14 +4,9 @@ import Input from '../../../../../components/UI/Input/Input';
 import * as actionCreators from '../../../../../store/actions/index';
 import { updateObject } from '../../../../../store/utility';
 import { changeNodeAtPath } from 'react-sortable-tree';
-
-
-// import classes from './Project.css'
+import { intervals, categories } from '../../ObjectiveHelpers/ObjectiveHelpers';
 
 class FormGenerator extends Component {
-    state = {
-
-    }
     checkValidity(value, rules) {
         let isValid = true;
         if (!rules) {
@@ -44,17 +39,67 @@ class FormGenerator extends Component {
     }
 
     inputChangedHandler = (event, controlName) => {
+        let newObj;
+        if(controlName === 'dataType') {
+            if(event.target.value === 'interval'){
+                //should remove form fields for other dataTypes and add interval
+                delete this.props.editNode.controls.cat1name;
+                delete this.props.editNode.controls.cat2name;
+                delete this.props.editNode.controls.cat3name;
+                delete this.props.editNode.controls.cat1val;
+                delete this.props.editNode.controls.cat2val;
+                delete this.props.editNode.controls.cat3val;
+                const mergedControls = {...this.props.editNode.controls, ...intervals()};
+                newObj = {
+                    ...this.props.editNode,
+                    controls: mergedControls
+                };
+            } else if(event.target.value === 'categorical'){
+                //should remove form fields for other dataTypes and add interval
+                delete this.props.editNode.controls.min;
+                delete this.props.editNode.controls.max;
+                delete this.props.editNode.controls.interval;
+                const mergedControls = {...this.props.editNode.controls, ...categories()};
+                newObj = {
+                    ...this.props.editNode,
+                    controls: mergedControls
+                };
+            } else if(event.target.value === 'continuous'){
+                //should remove form fields for other dataTypes and add interval
+                delete this.props.editNode.controls.min;
+                delete this.props.editNode.controls.max;
+                delete this.props.editNode.controls.interval;
+                delete this.props.editNode.controls.cat1name;
+                delete this.props.editNode.controls.cat2name;
+                delete this.props.editNode.controls.cat3name;
+                delete this.props.editNode.controls.cat1val;
+                delete this.props.editNode.controls.cat2val;
+                delete this.props.editNode.controls.cat3val;
+                newObj = {
+                    ...this.props.editNode
+                };
+            } else {
+                newObj = {
+                    ...this.props.editNode
+                };
+            }
+        } else {
+            newObj = {
+                ...this.props.editNode
+            };
+        };
+
         const getNodeKey = ({ treeIndex }) => treeIndex;
         const updatedControls = {
-            ...this.props.editNode.controls,
+            ...newObj.controls,
             [controlName]: {
-                ...this.props.editNode.controls[controlName],
+                ...newObj.controls[controlName],
                 value: event.target.value,
-                valid: this.checkValidity(event.target.value, this.props.editNode.controls[controlName].validation),
+                valid: this.checkValidity(event.target.value, newObj.controls[controlName].validation),
                 touched: true
             }
-        }
-        const updatedEditNode = updateObject(this.props.editNode, {controls: updatedControls});
+        };
+        const updatedEditNode = updateObject(newObj, {controls: updatedControls});
         this.props.onChangeEditNode({editNode: updatedEditNode})
         this.props.onTreeUpdate({
             treeData: changeNodeAtPath({
@@ -64,7 +109,7 @@ class FormGenerator extends Component {
                 newNode: updatedEditNode,
             })
         });
-    }
+    };
 
     render () {
         const formElementsArray = [];
@@ -76,17 +121,22 @@ class FormGenerator extends Component {
         }
 
         let form = formElementsArray.map(formElement => {
-            return (
-                <Input 
-                    key={formElement.id}
-                    elementType={formElement.config.elementType}
-                    elementConfig={formElement.config.elementConfig}
-                    value={formElement.config.value}
-                    invalid={!formElement.config.valid}
-                    shouldValidate={formElement.config.validation}
-                    touched={formElement.config.touched}
-                    changed={(event) => this.inputChangedHandler(event, formElement.id)} />
-            )
+            if(formElement.config.active){
+                return (
+                    <Input 
+                        key={formElement.id}
+                        label={formElement.config.label}
+                        elementType={formElement.config.elementType}
+                        elementConfig={formElement.config.elementConfig}
+                        value={formElement.config.value}
+                        invalid={!formElement.config.valid}
+                        shouldValidate={formElement.config.validation}
+                        touched={formElement.config.touched}
+                        changed={(event) => this.inputChangedHandler(event, formElement.id)} />
+                )
+            } else {
+                return false
+            }
         })
 
         if(this.props.editNode.children && this.props.editNode.children.length > 0){

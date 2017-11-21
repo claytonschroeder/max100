@@ -1,15 +1,21 @@
 import React, { Component } from 'react';
 import Alternative from './Alternative/Alternative';
-import classes from '../Project.css'
+import ObjectiveList from './ObjectiveList/ObjectiveList';
+
+import classes from './Alternatives.css';
 
 class Alternatives extends Component {
     render () {
-        const alts = this.props.alts ? this.props.alts.map(alt => {
-            return <Alternative key={ alt } name={ alt }/>
-        }) : null;
         return (
-            <div className={ classes.Alternatives }>
-                { alts }
+            <div className={ classes.Container }>
+                <ObjectiveList />
+                <p>List Alternatives</p>
+                <Alternative />
+                <Alternative />
+                <Alternative />
+                <Alternative />
+                <Alternative />
+                <Alternative />
             </div>
         );
     }
