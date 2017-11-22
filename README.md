@@ -1,3 +1,10 @@
+## Table of Contents
+- clone the repo to a folder your machine.
+- cd into that foler and run 'npm install'.
+- run 'npm start'.
+- open 'localhost:3000' in your browser.
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
