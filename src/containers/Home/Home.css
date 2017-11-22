@@ -1,0 +1,25 @@
+.Home {
+    height: 600px;
+    padding: 10px;
+    box-shadow: 1px 1px 1px 1px #ddd;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.Inner {
+    width: 50%;
+    margin: 0 auto;
+    text-align: center
+}
+
+.Buffer {
+    margin-top: 30px;
+}
+
+.Button {
+    padding: 10px 20px;
+    text-decoration: none;
+    font-weight: bold;
+    color: #fff;
+    background-color: #40A4C8;
+}

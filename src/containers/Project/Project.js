@@ -7,9 +7,9 @@ class Project extends Component {
     render () {
         return (
             <Aux>
-                <Route path="/project/max100" component={() => <Objectives config='max100'/>} />
-                <Route path="/project/smarter" component={() => <Objectives config='smarter'/>} />
-                <Route path="/project/swing-weighting" component={() => <Objectives config='swing-weighting'/>} />
+                <Route path="/case/max100" exact component={() => <Objectives config='max100'/>} />
+                <Route path="/case/smarter" exact component={() => <Objectives config='smarter'/>} />
+                <Route path="/case/swing-weighting" exact component={() => <Objectives config='swing'/>} />
             </Aux>
         );
     }
