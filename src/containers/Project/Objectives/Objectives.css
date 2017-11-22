@@ -6,8 +6,8 @@
     height: 600px;
     padding: 10px;
     box-shadow: 1px 1px 1px 1px #ddd;
-    width: 60%;
-    margin-right: 5px;
+    width: 80%;
+    margin: 0 auto;
 }
 
 .ObjectivesTools {

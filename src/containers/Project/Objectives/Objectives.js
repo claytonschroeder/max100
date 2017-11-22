@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import SortableTree, { addNodeUnderParent, removeNodeAtPath, changeNodeAtPath, toggleExpandedForAll } from 'react-sortable-tree';
 
 import * as actionCreators from '../../../store/actions/index';
-
-import ObjectivePerformance from './ObjectivesPerformace/ObjectivePerformance';
 
 import classes from './Objectives.css';
 
@@ -32,29 +31,197 @@ class Objectives extends Component {
     render () {
         const getNodeKey = ({ treeIndex }) => treeIndex;
 
-        const getClasses = (nodeId, hide) => {
-            const classNames = [{classes: classes.Push}];
-            const editNodeId = this.props.editNode && this.props.editNode.id ? this.props.editNode.id : null;
-            if(editNodeId === nodeId){
-                classNames.push({classes: classes.Active})
+        const canDrop = ({ node, nextParent, prevPath, nextPath }) => {
+            //if the node is classified as trapped. check its drag path.
+            if(node.trapped){
+                //node should remain at same level
+                if(prevPath.length !== nextPath.length){
+                    return false
+                }
+                //node should have the same parent when dragged
+                if(prevPath[0] !== nextPath[0]){
+                    return false
+                }
             }
-            if(hide){
-                classNames.push({classes: classes.Hidden})
+            // if node is a trap, keep it at its level, it can relocate within its level though
+            if(node.trap){
+                if(prevPath.length !== nextPath.length){
+                    return false
+                }
             }
-            return classNames.map(el => {
-                return el.classes
-            }).join(' ')
+            return true;
         };
 
-        const objPerformance = this.props.editNode ? (
-            <ObjectivePerformance editNode={ this.props.editNode }/>
-        ) : null;
+        const getInputs = (node, path) => {
+            switch(this.props.config){
+                case 'max100':
+                    return(
+                        <div>
+                            <label>Score:</label>
+                            <input
+                                type='number'
+                                min={0}
+                                max={100}
+                                value={node.max100.score ? node.max100.score : ''}
+                                onChange={event => {
+                                    const score = event.target.value;
+                                    this.props.onTreeUpdate({
+                                        treeData: changeNodeAtPath({
+                                            treeData: this.props.tree,
+                                            path,
+                                            getNodeKey,
+                                            newNode: { 
+                                                ...node,
+                                                max100: {
+                                                    score
+                                                }
+                                            },
+                                        }),
+                                    });
+                                }}
+                            />
+                        </div>
+                    )
+                case 'smarter':
+                    return(
+                        <div>
+                            <label>Min:</label>
+                            <input
+                                type='number'
+                                min={0}
+                                max={100}
+                                value={node.smarter.min ? node.smarter.min : ''}
+                                onChange={event => {
+                                    const min = event.target.value;
+                                    this.props.onTreeUpdate({
+                                        treeData: changeNodeAtPath({
+                                            treeData: this.props.tree,
+                                            path,
+                                            getNodeKey,
+                                            newNode: { 
+                                                ...node,
+                                                smarter: {
+                                                    ...node.smarter,
+                                                    min
+                                                }
+                                            },
+                                        }),
+                                    });
+                                }}
+                            />
+                            <label>Max:</label>
+                            <input
+                                type='number'
+                                min={0}
+                                max={100}
+                                value={node.smarter.max ? node.smarter.max : ''}
+                                onChange={event => {
+                                    const max = event.target.value;
+                                    this.props.onTreeUpdate({
+                                        treeData: changeNodeAtPath({
+                                            treeData: this.props.tree,
+                                            path,
+                                            getNodeKey,
+                                            newNode: { 
+                                                ...node,
+                                                smarter: {
+                                                    ...node.smarter,
+                                                    max
+                                                }
+                                            },
+                                        }),
+                                    });
+                                }}
+                            />
+                        </div>
+                    )
+                case 'swing-weighting':
+                    return(
+                        <div>
+                            <label>Min:</label>
+                            <input
+                                type='number'
+                                min={0}
+                                max={100}
+                                value={node.swing.min ? node.swing.min : ''}
+                                onChange={event => {
+                                    const min = event.target.value;
+                                    this.props.onTreeUpdate({
+                                        treeData: changeNodeAtPath({
+                                            treeData: this.props.tree,
+                                            path,
+                                            getNodeKey,
+                                            newNode: { 
+                                                ...node,
+                                                swing: {
+                                                    ...node.swing,
+                                                    min
+                                                }
+                                            },
+                                        }),
+                                    });
+                                }}
+                            />
+                            <label>Max:</label>
+                            <input
+                                type='number'
+                                min={0}
+                                max={100}
+                                value={node.swing.max ? node.swing.max : ''}
+                                onChange={event => {
+                                    const max = event.target.value;
+                                    this.props.onTreeUpdate({
+                                        treeData: changeNodeAtPath({
+                                            treeData: this.props.tree,
+                                            path,
+                                            getNodeKey,
+                                            newNode: { 
+                                                ...node,
+                                                swing: {
+                                                    ...node.swing,
+                                                    max
+                                                }
+                                            },
+                                        }),
+                                    });
+                                }}
+                            />
+                            <label>Score:</label>
+                            <input
+                                type='number'
+                                min={0}
+                                max={100}
+                                value={node.swing.score ? node.swing.score : ''}
+                                onChange={event => {
+                                    const score = event.target.value;
+                                    this.props.onTreeUpdate({
+                                        treeData: changeNodeAtPath({
+                                            treeData: this.props.tree,
+                                            path,
+                                            getNodeKey,
+                                            newNode: { 
+                                                ...node,
+                                                swing: {
+                                                    ...node.swing,
+                                                    score
+                                                }
+                                            },
+                                        }),
+                                    });
+                                }}
+                            />
+                        </div>
+                    )
+                default: return null
+            }
+        }
 
         return (
             <div className={ classes.Container }>
                 <div className={ classes.Objectives }>
                     <div className={ classes.ObjectivesButtons }>
                         <button 
+                            disabled
                             onClick={() => {
                                 const newTopLevel = newNode();
                                 this.props.onTreeUpdate({treeData: this.props.tree.concat(newTopLevel)});
@@ -62,51 +229,33 @@ class Objectives extends Component {
                         >
                             Add Top Level Objective
                         </button>
-                        <button onClick={ this.expandAll }>Expand All</button>
-                        <button onClick={ this.collapseAll }>Collapse All</button>
                     </div>
                     <SortableTree
+                        canDrop={ canDrop }
                         style={ {height: '90%'} }
                         innerStyle={{paddingLeft: '30px'}}
                         treeData={this.props.tree}
                         onChange={treeData => this.props.onTreeUpdate({ treeData })}
                         generateNodeProps={({ node, path }) => ({
-                            className: (getClasses(node.id, node.hide)),
                             title: (
-                                <input
-                                    value={node.title}
-                                    onFocus={() => this.props.onChangeEditNode({
-                                        editNode: node,
-                                        path,
-                                        getNodeKey
-                                    })}
-                                    onClick={() => this.props.onChangeEditNode({
-                                        editNode: node,
-                                        path,
-                                        getNodeKey
-                                    })}
-                                    onChange={event => {
-                                        const title = event.target.value;
-                                        this.props.onTreeUpdate({
-                                            treeData: changeNodeAtPath({
-                                                treeData: this.props.tree,
-                                                path,
-                                                getNodeKey,
-                                                newNode: { 
-                                                    ...node,
-                                                    title 
-                                                },
-                                            }),
-                                        });
-                                        this.props.onChangeEditNode(
-                                            {
-                                                editNode: {...node, title},
-                                                path,
-                                                getNodeKey
-                                            }
-                                        );
-                                    }}
-                                />
+                                    <input
+                                        disabled
+                                        value={node.title}
+                                        onChange={event => {
+                                            const title = event.target.value;
+                                            this.props.onTreeUpdate({
+                                                treeData: changeNodeAtPath({
+                                                    treeData: this.props.tree,
+                                                    path,
+                                                    getNodeKey,
+                                                    newNode: { 
+                                                        ...node,
+                                                        title 
+                                                    },
+                                                }),
+                                            });
+                                        }}
+                                    />
                             ),
                             buttons: [
                                 <button
@@ -121,22 +270,12 @@ class Objectives extends Component {
                                                 newNode: newChildNode,
                                             }).treeData,
                                         });
-                                        this.props.onChangeEditNode({
-                                            editNode: newChildNode,
-                                            path,
-                                            getNodeKey
-                                        });
                                     }}
                                 >
                                     Add Sub-Objective
                                 </button>,
                                 <button
                                     onClick={() => {
-                                        this.props.onChangeEditNode({
-                                            editNode: null,
-                                            path,
-                                            getNodeKey
-                                        });
                                         this.props.onTreeUpdate({
                                             treeData: removeNodeAtPath({
                                                 treeData: this.props.tree,
@@ -148,42 +287,10 @@ class Objectives extends Component {
                                 >
                                     Remove
                                 </button>,
-                                <button
-                                    disabled={ node.children && node.children.length > 0 ? true : false }
-                                    onClick={() => {
-                                        this.props.onChangeEditNode({
-                                            editNode: node,
-                                            path,
-                                            getNodeKey
-                                        });
-                                    }}
-                                >
-                                    Edit Info
-                                </button>,
-                                <button
-                                    className={ classes.ShowHide }
-                                    onClick={() => {
-                                        this.props.onTreeUpdate({
-                                            treeData: changeNodeAtPath({
-                                                treeData: this.props.tree,
-                                                path,
-                                                getNodeKey,
-                                                newNode: { 
-                                                    ...node,
-                                                    hide: !node.hide 
-                                                },
-                                            }),
-                                        });
-                                    }}
-                                >
-                                    { !node.hide ? "Hide" : "Show"}
-                                </button>
+                                getInputs(node, path)
                             ],
                         })}
                     />
-                </div>
-                <div className={ classes.ObjectivesTools }>
-                    { objPerformance }
                 </div>
             </div>
         );
@@ -192,16 +299,14 @@ class Objectives extends Component {
 
 const mapStateToProps = state => {
     return {
-        tree: state.proj.treeData,
-        editNode: state.proj.editNode
+        tree: state.treeData
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onTreeUpdate: (treeData) => dispatch(actionCreators.updateTree(treeData)),
-        onChangeEditNode: (editNode) => dispatch(actionCreators.changeEditNode(editNode))
+        onTreeUpdate: (treeData) => dispatch(actionCreators.updateTree(treeData))
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Objectives);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Objectives));

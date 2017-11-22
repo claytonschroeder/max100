@@ -6,10 +6,3 @@ export const updateTree = (treeData) => {
         treeData: treeData
     };
 };
-
-export const changeEditNode = (editNode) => {
-    return {
-        type: actionTypes.CHANGE_EDIT_NODE,
-        editNode: editNode
-    };
-};
