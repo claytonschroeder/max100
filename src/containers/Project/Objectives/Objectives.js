@@ -51,6 +51,7 @@ class Objectives extends Component {
         axios.post('/responses/.json', data)
             .then(response => {
                 console.log(response)
+                this.props.history.push('/thank-you');
             })
             .catch(error => {
                 console.log(error)

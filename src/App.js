@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 
+import Thanks from './containers/Thanks/Thanks';
 import Home from './containers/Home/Home';
 import Project from './containers/Project/Project';
 import Layout from './hoc/Layout/Layout';
@@ -15,6 +16,7 @@ class App extends Component {
         <Layout>
           <Switch>
             <Route path="/case" component={Project} />
+            <Route path="/thank-you" component={Thanks} />
             <Route path="/" exact component={Home} />
           </Switch>
         </Layout>

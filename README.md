@@ -1,4 +1,4 @@
-## Table of Contents
+## Instructions
 - clone the repo to a folder your machine.
 - cd into that foler and run 'npm install'.
 - run 'npm start'.
