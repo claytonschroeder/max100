@@ -55,6 +55,23 @@ const initialState = {
                     max100: {
                         score: null
                     }
+                },
+                {
+                    id: '95588910-cf20-11e7-a292-ef2ce8490bd8',
+                    title: 'Objective 1.3',
+                    trapped: true,
+                    smarter: {
+                        min: null,
+                        max: null
+                    },
+                    swing: {
+                        min: null,
+                        max: null,
+                        score: null
+                    },
+                    max100: {
+                        score: null
+                    }
                 }
             ]
         },

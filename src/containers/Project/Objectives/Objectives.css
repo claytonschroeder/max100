@@ -3,19 +3,11 @@
 }
 
 .Objectives {
-    height: 600px;
+    height: 950px;
     padding: 10px;
     box-shadow: 1px 1px 1px 1px #ddd;
     width: 80%;
     margin: 0 auto;
-}
-
-.ObjectivesTools {
-    height: 600px;
-    padding: 10px;
-    box-shadow: 1px 1px 1px 1px #ddd;
-    width: 40%;
-    overflow: scroll;
 }
 
 .ObjectivesButtons {
@@ -54,4 +46,24 @@
 
 .Label {
     margin: 6px;
+}
+
+.Button {
+    padding: 10px;
+    margin: 5px;
+}
+
+.ButtonSubmit {
+    padding: 10px;
+    margin: 5px;
+    background-color: rgb(21, 102, 21);
+    color: #fff
+}
+
+.ButtonSubmit:hover {
+    cursor: pointer;
+}
+
+.Button:hover {
+    cursor: pointer;
 }

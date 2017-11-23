@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import SortableTree, { addNodeUnderParent, removeNodeAtPath, changeNodeAtPath, toggleExpandedForAll, getFlatDataFromTree } from 'react-sortable-tree';
+
+import Modal from '../../../components/UI/Modal/Modal';
+
 import axios from '../../../axios';
 import * as actionCreators from '../../../store/actions/index';
 
@@ -11,6 +14,7 @@ import { newNode } from './ObjectiveHelpers/ObjectiveHelpers';
 
 class Objectives extends Component {
     state = {
+        showModal: true,
         loading: false,
         error: false,
         errorMessage: null
@@ -56,6 +60,12 @@ class Objectives extends Component {
             .catch(error => {
                 console.log(error)
             })
+    }
+
+    closeModal = (event) => {
+        this.setState({
+            showModal: false
+        })
     }
 
     render () {
@@ -313,22 +323,28 @@ class Objectives extends Component {
             }
         }
 
-        const advanceButton = <button 
+        const advanceButton = <button
+            className={ classes.Button } 
             onClick={() => changePage(this.props.config, 'advance')}
             disabled={disableNav(this.props.config, 'advance')}>Advance</button>
         
-        const goBackButton = <button 
+        const goBackButton = <button
+            className={ classes.Button } 
             onClick={() => changePage(this.props.config, 'back')}
             disabled={disableNav(this.props.config, 'back')}>Go Back</button>
         
-        const submitButton = <button 
+        const submitButton = <button
+            className={ validateTree(this.props.tree) ? classes.None : classes.ButtonSubmit }  
             onClick={() => this.submit(this.props.tree)}
             disabled={validateTree(this.props.tree)}>Submit</button>
 
         const pageTitle = getPageName(this.props.config);
+
+        const modal = this.state.showModal ? (<Modal close={ this.closeModal } title={ pageTitle }/>) : null
         
         return (
             <div className={ classes.Container }>
+                { modal }
                 <div className={ classes.Objectives }>
                     <div className={ classes.Title }>
                         <h2>{ pageTitle }</h2>
@@ -349,13 +365,15 @@ class Objectives extends Component {
                         { submitButton }
                     </div>
                     <SortableTree
+                        canDrag={ true }
                         canDrop={ canDrop }
                         style={ {height: '80%'} }
+                        rowHeight={50}
                         innerStyle={{paddingLeft: '30px'}}
                         treeData={this.props.tree}
                         onChange={treeData => this.props.onTreeUpdate({ treeData })}
                         generateNodeProps={({ node, path }) => ({
-                            title: (
+                            /*title: (
                                     <input
                                         disabled
                                         value={node.title}
@@ -374,7 +392,7 @@ class Objectives extends Component {
                                             });
                                         }}
                                     />
-                            ),
+                            ),*/
                             buttons: [
                                 <button
                                     className={ classes.None }
