@@ -179,6 +179,7 @@ class Objectives extends Component {
                         <div className={ show }>
                             <label className={ classes.Label }>Min:</label>
                             <input
+                                disabled
                                 className={ classes.Highlight }
                                 type='number'
                                 min={ 0 }
@@ -204,6 +205,7 @@ class Objectives extends Component {
                             />
                             <label className={ classes.Label }>Max:</label>
                             <input
+                                disabled
                                 className={ classes.Highlight }
                                 type='number'
                                 min={ 0 }
@@ -321,10 +323,10 @@ class Objectives extends Component {
 
         const getPageInstructions = (step) => {
             switch(step){
-                case 0: return 'For each objective, organize the sub-objectives in your preffered order. Click on the "plus" button to the left of each objective. To move the items, click and drag the grey box on the left side of the box.'
-                case 1: return 'Rank the top-level objectives in your preffered order. (Note: You can click on the "minus" button to collapse the sub-objectives)'
-                case 2: return 'Enter scores for each sub-objective. The top sub-objective in each group should recieve a score of 100, while the others should receive any amount less than 100.'
-                case 3: return 'Enter scores for each top level objective. The top objective should recieve a score of 100, while the others should receive any amount less than 100.'
+                case 0: return 'For each objective, please drag and drop the sub-objectives in order from most important to least important.'
+                case 1: return 'For the main objectives, please drag and drop them in order from most important to least important.'
+                case 2: return 'Assign the most important attribute in the set a rating of 100, and then rate the other attributes relative to it on a scale of 0 – 100. You may use the same weight for more than one criterion if you consider them to be of the same importance.'
+                case 3: return 'For the main objectives, assign the most important attribute in the set a rating of 100, and then rate the other attributes relative to it on a scale of 0 – 100. You may use the same weight for more than one criterion if you consider them to be of the same importance.'
                 default: return null
             }
         }
@@ -359,6 +361,8 @@ class Objectives extends Component {
         const getCustomStyle = (step, node) => {
             if(step === 0 && !node.children){
                 return {boxShadow: '0 0 0 3px green'}
+            } else if (step === 0 && node.children){
+                return {color: '#ddd', pointerEvents: 'none'}
             } else if(step === 1 && node.children){
                 return {boxShadow: '0 0 0 3px green'}
             } else if(step === 1 && !node.children){

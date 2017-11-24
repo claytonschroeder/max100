@@ -147,8 +147,8 @@ const initialState = {
             grandkids: false,
             title: 'Objective 1',
             swing: {
-                min: '',
-                max: '',
+                min: 25,
+                max: 100,
                 score: ''
             },
             expanded: true,
@@ -158,8 +158,8 @@ const initialState = {
                     title: 'Objective 1.1',
                     trapped: true,
                     swing: {
-                        min: '',
-                        max: '',
+                        min: 10,
+                        max: 50,
                         score: ''
                     },
                 },
@@ -168,8 +168,8 @@ const initialState = {
                     title: 'Objective 1.2',
                     trapped: true,
                     swing: {
-                        min: '',
-                        max: '',
+                        min: 10,
+                        max: 15,
                         score: ''
                     },
                 },
@@ -178,8 +178,8 @@ const initialState = {
                     title: 'Objective 1.3',
                     trapped: true,
                     swing: {
-                        min: '',
-                        max: '',
+                        min: 10,
+                        max: 20,
                         score: ''
                     },
                 }
@@ -191,8 +191,8 @@ const initialState = {
             grandkids: false,
             title: 'Objective 2',
             swing: {
-                min: '',
-                max: '',
+                min: 10,
+                max: 60,
                 score: ''
             },
             expanded: true,
@@ -202,8 +202,8 @@ const initialState = {
                     title: 'Objective 2.1',
                     trapped: true,
                     swing: {
-                        min: '',
-                        max: '',
+                        min: 20,
+                        max: 100,
                         score: ''
                     },
                 },
@@ -212,8 +212,8 @@ const initialState = {
                     title: 'Objective 2.2',
                     trapped: true,
                     swing: {
-                        min: '',
-                        max: '',
+                        min: 5,
+                        max: 20,
                         score: ''
                     },
                 },
@@ -222,8 +222,8 @@ const initialState = {
                     title: 'Objective 2.3',
                     trapped: true,
                     swing: {
-                        min: '',
-                        max: '',
+                        min: 5,
+                        max: 50,
                         score: ''
                     },
                 },
@@ -232,8 +232,8 @@ const initialState = {
                     title: 'Objective 2.4',
                     trapped: true,
                     swing: {
-                        min: '',
-                        max: '',
+                        min: 10,
+                        max: 30,
                         score: ''
                     },
                 }
@@ -245,8 +245,8 @@ const initialState = {
             grandkids: false,
             title: 'Objective 3',
             swing: {
-                min: '',
-                max: '',
+                min: 5,
+                max: 15,
                 score: ''
             },
             expanded: true,
@@ -256,8 +256,8 @@ const initialState = {
                     title: 'Objective 3.1',
                     trapped: true,
                     swing: {
-                        min: '',
-                        max: '',
+                        min: 10,
+                        max: 50,
                         score: ''
                     },
                 },
@@ -266,8 +266,8 @@ const initialState = {
                     title: 'Objective 3.2',
                     trapped: true,
                     swing: {
-                        min: '',
-                        max: '',
+                        min: 10,
+                        max: 20,
                         score: ''
                     },
                 }
@@ -279,8 +279,8 @@ const initialState = {
             grandkids: false,
             title: 'Objective 4',
             swing: {
-                min: '',
-                max: '',
+                min: 5,
+                max: 10,
                 score: ''
             },
             expanded: true,
@@ -290,8 +290,8 @@ const initialState = {
                     title: 'Objective 4.1',
                     trapped: true,
                     swing: {
-                        min: '',
-                        max: '',
+                        min: 10,
+                        max: 20,
                         score: ''
                     },
                 },
@@ -300,8 +300,8 @@ const initialState = {
                     title: 'Objective 4.2',
                     trapped: true,
                     swing: {
-                        min: '',
-                        max: '',
+                        min: 5,
+                        max: 50,
                         score: ''
                     },
                 }
