@@ -69,6 +69,9 @@ class Objectives extends Component {
     }
 
     render () {
+        const data = this.props[this.props.config];
+        const key = this.props.config
+        console.log(data)
         const getNodeKey = ({ treeIndex }) => treeIndex;
         const canDrop = ({ node, nextParent, prevPath, nextPath }) => {
             //if the node is classified as trapped. check its drag path.
@@ -109,8 +112,8 @@ class Objectives extends Component {
                                 onChange={event => {
                                     const score = event.target.value;
                                     this.props.onTreeUpdate({
-                                        treeData: changeNodeAtPath({
-                                            treeData: this.props.tree,
+                                        [key]: changeNodeAtPath({
+                                            [key]: this.props.tree,
                                             path,
                                             getNodeKey,
                                             newNode: { 
@@ -137,8 +140,8 @@ class Objectives extends Component {
                                 onChange={event => {
                                     const min = event.target.value;
                                     this.props.onTreeUpdate({
-                                        treeData: changeNodeAtPath({
-                                            treeData: this.props.tree,
+                                        [key]: changeNodeAtPath({
+                                            [key]: this.props.tree,
                                             path,
                                             getNodeKey,
                                             newNode: { 
@@ -161,8 +164,8 @@ class Objectives extends Component {
                                 onChange={event => {
                                     const max = event.target.value;
                                     this.props.onTreeUpdate({
-                                        treeData: changeNodeAtPath({
-                                            treeData: this.props.tree,
+                                        [key]: changeNodeAtPath({
+                                            [key]: this.props.tree,
                                             path,
                                             getNodeKey,
                                             newNode: { 
@@ -190,8 +193,8 @@ class Objectives extends Component {
                                 onChange={event => {
                                     const min = event.target.value;
                                     this.props.onTreeUpdate({
-                                        treeData: changeNodeAtPath({
-                                            treeData: this.props.tree,
+                                        [key]: changeNodeAtPath({
+                                            [key]: this.props.tree,
                                             path,
                                             getNodeKey,
                                             newNode: { 
@@ -214,8 +217,8 @@ class Objectives extends Component {
                                 onChange={event => {
                                     const max = event.target.value;
                                     this.props.onTreeUpdate({
-                                        treeData: changeNodeAtPath({
-                                            treeData: this.props.tree,
+                                        [key]: changeNodeAtPath({
+                                            [key]: this.props.tree,
                                             path,
                                             getNodeKey,
                                             newNode: { 
@@ -238,8 +241,8 @@ class Objectives extends Component {
                                 onChange={event => {
                                     const score = event.target.value;
                                     this.props.onTreeUpdate({
-                                        treeData: changeNodeAtPath({
-                                            treeData: this.props.tree,
+                                        [key]: changeNodeAtPath({
+                                            [key]: this.props.tree,
                                             path,
                                             getNodeKey,
                                             newNode: { 
@@ -355,7 +358,7 @@ class Objectives extends Component {
                             disabled
                             onClick={() => {
                                 const newTopLevel = newNode();
-                                this.props.onTreeUpdate({treeData: this.props.tree.concat(newTopLevel)});
+                                this.props.onTreeUpdate({[key]: this.props.tree.concat(newTopLevel)});
                             }}
                         >
                             Add Top Level Objective
@@ -370,7 +373,7 @@ class Objectives extends Component {
                         style={ {height: '80%'} }
                         rowHeight={50}
                         innerStyle={{paddingLeft: '30px'}}
-                        treeData={this.props.tree}
+                        treeData={ data }
                         onChange={treeData => this.props.onTreeUpdate({ treeData })}
                         generateNodeProps={({ node, path }) => ({
                             /*title: (
@@ -399,13 +402,13 @@ class Objectives extends Component {
                                     onClick={() => {
                                         const newChildNode = newNode();
                                         this.props.onTreeUpdate({
-                                            treeData: addNodeUnderParent({
-                                                treeData: this.props.tree,
+                                            [key]: addNodeUnderParent({
+                                                [key]: this.props.tree,
                                                 parentKey: path[path.length - 1],
                                                 expandParent: true,
                                                 getNodeKey,
                                                 newNode: newChildNode,
-                                            }).treeData,
+                                            })[key],
                                         });
                                     }}
                                 >
@@ -415,8 +418,8 @@ class Objectives extends Component {
                                     className={ classes.None }
                                     onClick={() => {
                                         this.props.onTreeUpdate({
-                                            treeData: removeNodeAtPath({
-                                                treeData: this.props.tree,
+                                            [key]: removeNodeAtPath({
+                                                [key]: this.props.tree,
                                                 path,
                                                 getNodeKey,
                                             }),
@@ -437,7 +440,9 @@ class Objectives extends Component {
 
 const mapStateToProps = state => {
     return {
-        tree: state.treeData
+        swing: state.swing,
+        smarter: state.smarter,
+        max100: state.max100
     }
 };
 
