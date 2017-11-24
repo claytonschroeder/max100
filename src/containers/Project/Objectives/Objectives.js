@@ -19,7 +19,7 @@ class Objectives extends Component {
         error: false,
         errorMessage: null,
         step: 0,
-        steps: 2
+        steps: 3
     }
 
     expand = (expanded) => {
@@ -85,7 +85,7 @@ class Objectives extends Component {
 
         const getInputs = (node, path) => {
             let show = '';
-            if(this.state.step < this.state.steps){
+            if((this.state.step < 2) || (this.state.step === 2 && node.children) || (this.state.step === 3 && !node.children)){
                 show = classes.None
             }
             switch(this.props.config){
@@ -96,8 +96,8 @@ class Objectives extends Component {
                             <input
                                 className={ classes.Highlight }
                                 type='number'
-                                min={0}
-                                max={100}
+                                min={ 0 }
+                                max={ 100 }
                                 value={node.max100.score ? node.max100.score : ''}
                                 onChange={event => {
                                     const score = event.target.value;
@@ -126,8 +126,8 @@ class Objectives extends Component {
                             <input
                                 className={ classes.Highlight }
                                 type='number'
-                                min={0}
-                                max={100}
+                                min={ 0 }
+                                max={ 100 }
                                 value={node.smarter.min ? node.smarter.min : ''}
                                 onChange={event => {
                                     const min = event.target.value;
@@ -151,8 +151,8 @@ class Objectives extends Component {
                             <input
                                 className={ classes.Highlight }
                                 type='number'
-                                min={0}
-                                max={100}
+                                min={ 0 }
+                                max={ 100 }
                                 value={node.smarter.max ? node.smarter.max : ''}
                                 onChange={event => {
                                     const max = event.target.value;
@@ -181,8 +181,8 @@ class Objectives extends Component {
                             <input
                                 className={ classes.Highlight }
                                 type='number'
-                                min={0}
-                                max={100}
+                                min={ 0 }
+                                max={ 100 }
                                 value={node.swing.min ? node.swing.min : ''}
                                 onChange={event => {
                                     const min = event.target.value;
@@ -206,8 +206,8 @@ class Objectives extends Component {
                             <input
                                 className={ classes.Highlight }
                                 type='number'
-                                min={0}
-                                max={100}
+                                min={ 0 }
+                                max={ 100 }
                                 value={node.swing.max ? node.swing.max : ''}
                                 onChange={event => {
                                     const max = event.target.value;
@@ -231,8 +231,8 @@ class Objectives extends Component {
                             <input
                                 className={ classes.Highlight }
                                 type='number'
-                                min={0}
-                                max={100}
+                                min={ 0 }
+                                max={ 100 }
                                 value={node.swing.score ? node.swing.score : ''}
                                 onChange={event => {
                                     const score = event.target.value;
@@ -263,12 +263,18 @@ class Objectives extends Component {
                 if(this.state.step === 0){
                     this.expand(false)
                 }
-                if(this.state.step=== 1){
+                if(this.state.step === 1){
                     this.expand(true);
+                }
+                if(this.state.step === 2){
+                    this.expand(false);
                 }
                 this.setState({step: this.state.step + 1})
             }
             if(direction === 'back' && (this.state.step >= 1)){
+                if(this.state.step === 3){
+                    this.expand(true)
+                }
                 if(this.state.step === 2){
                     this.expand(false)
                 }
@@ -317,7 +323,8 @@ class Objectives extends Component {
             switch(step){
                 case 0: return 'For each objective, organize the sub-objectives in your preffered order. Click on the "plus" button to the left of each objective. To move the items, click and drag the grey box on the left side of the box.'
                 case 1: return 'Rank the top-level objectives in your preffered order. (Note: You can click on the "minus" button to collapse the sub-objectives)'
-                case 2: return 'Lastly, enter the scores for each sub-objective and objective. Once all the scores have been entered, Click the submit button.'
+                case 2: return 'Enter scores for each sub-objective. The top sub-objective in each group should recieve a score of 100, while the others should receive any amount less than 100.'
+                case 3: return 'Enter scores for each top level objective. The top objective should recieve a score of 100, while the others should receive any amount less than 100.'
                 default: return null
             }
         }
@@ -335,7 +342,6 @@ class Objectives extends Component {
             className={ classes.Button } 
             onClick={() => changePage(this.props.config, 'advance')}
             disabled={this.state.step === this.state.steps}>Advance</button>
-        
         const goBackButton = <button
             className={ classes.Button } 
             onClick={() => changePage(this.props.config, 'back')}
@@ -347,9 +353,7 @@ class Objectives extends Component {
             disabled={validateTree(this.props[key], key)}>Submit</button>
 
         const pageTitle = getPageName(this.props.config);
-
         const pageInstructions = getPageInstructions(this.state.step);
-
         const modal = this.state.showModal ? (<Modal close={ this.closeModal } title={ pageTitle }/>) : null
         
         const getCustomStyle = (step, node) => {
@@ -359,12 +363,19 @@ class Objectives extends Component {
                 return {boxShadow: '0 0 0 3px green'}
             } else if(step === 1 && !node.children){
                 return {color: '#ddd', pointerEvents: 'none'}
-            } else if(step === 2){
-                return null
-            } else {
+            } else if(step === 2 && !node.children){
+                return {boxShadow: '0 0 0 3px green'}
+            } else if (step ===2 && node.children) {
                 return {color: '#ddd', pointerEvents: 'none'}
+            } else if (step === 3 && node.children) {
+                return {boxShadow: '0 0 0 3px green'}
+            } else if (step === 3 && !node.children) {
+                return {color: '#ddd', pointerEvents: 'none'}
+            } else {
+                return null
             }
         }
+
         return (
             <div className={ classes.Container }>
                 { modal }
@@ -389,7 +400,7 @@ class Objectives extends Component {
                         { submitButton }
                     </div>
                     <SortableTree
-                        canDrag={ this.state.step === 2 ? false : true }
+                        canDrag={ this.state.step >= 2 ? false : true }
                         canDrop={ canDrop }
                         style={ {height: '80%'} }
                         rowHeight={50}
@@ -398,26 +409,6 @@ class Objectives extends Component {
                         onChange={treeData => this.props.onTreeUpdate({[key]: treeData}, key)}
                         generateNodeProps={({ node, path }) => {
                             return ({
-                            /*title: (
-                                    <input
-                                        disabled
-                                        value={node.title}
-                                        onChange={event => {
-                                            const title = event.target.value;
-                                            this.props.onTreeUpdate({
-                                                treeData: changeNodeAtPath({
-                                                    treeData: this.props.tree,
-                                                    path,
-                                                    getNodeKey,
-                                                    newNode: { 
-                                                        ...node,
-                                                        title 
-                                                    },
-                                                }),
-                                            });
-                                        }}
-                                    />
-                            ),*/
                             style: getCustomStyle(this.state.step, node),
                             buttons: [
                                 <button
