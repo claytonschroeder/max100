@@ -67,3 +67,17 @@
 .Button:hover {
     cursor: pointer;
 }
+
+.Green {
+    background-color: green;
+}
+
+.Highlight {
+    border: 1px solid green;
+}
+
+.Intructions {
+    width: 700px;
+    margin: auto;
+    text-align: initial;
+}

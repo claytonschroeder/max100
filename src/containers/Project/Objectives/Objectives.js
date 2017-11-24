@@ -17,61 +17,50 @@ class Objectives extends Component {
         showModal: true,
         loading: false,
         error: false,
-        errorMessage: null
+        errorMessage: null,
+        step: 0,
+        steps: 2
     }
-
 
     expand = (expanded) => {
         this.props.onTreeUpdate({
-            treeData: toggleExpandedForAll({
-                treeData: this.props.tree,
+            [this.props.config]: toggleExpandedForAll({
+                treeData: this.props[this.props.config],
                 expanded,
             }),
         });
     }
-    
-    expandAll = () => {
-        this.expand(true);
-    }
-    
-    collapseAll = () => {
-        this.expand(false);
-    }
 
-    submit = (tree) => {
+    submit = (tree, key) => {
         const flatData = getFlatDataFromTree({
             treeData: tree,
             getNodeKey: ({ node }) => node.id, // This ensures your "id" properties are exported in the path
             ignoreCollapsed: false, // Makes sure you traverse every node in the tree, not just the visible ones
         }).map(({ node, path }) => ({
             title: node.title,
-            max100: node.max100,
-            smarter: node.smarter,
-            swing: node.swing
+            [key]: node[key]
         }));
         let data = {
             data: flatData
         }
-        axios.post('/responses/.json', data)
+        axios.post(`/${key}/.json`, data)
             .then(response => {
-                console.log(response)
                 this.props.history.push('/thank-you');
             })
             .catch(error => {
                 console.log(error)
             })
-    }
+    };
 
     closeModal = (event) => {
         this.setState({
             showModal: false
         })
-    }
+    };
 
     render () {
         const data = this.props[this.props.config];
-        const key = this.props.config
-        console.log(data)
+        const key = this.props.config;
         const getNodeKey = ({ treeIndex }) => treeIndex;
         const canDrop = ({ node, nextParent, prevPath, nextPath }) => {
             //if the node is classified as trapped. check its drag path.
@@ -96,7 +85,7 @@ class Objectives extends Component {
 
         const getInputs = (node, path) => {
             let show = '';
-            if(this.state.step === 1){
+            if(this.state.step < this.state.steps){
                 show = classes.None
             }
             switch(this.props.config){
@@ -105,25 +94,27 @@ class Objectives extends Component {
                         <div className={ show }>
                             <label className={ classes.Label }>Score:</label>
                             <input
+                                className={ classes.Highlight }
                                 type='number'
                                 min={0}
                                 max={100}
                                 value={node.max100.score ? node.max100.score : ''}
                                 onChange={event => {
                                     const score = event.target.value;
+                                    console.log(score)
+                                    const changedNode = changeNodeAtPath({treeData: this.props[key], path, getNodeKey, newNode: {...node, max100: {score}}});
+                                    console.log(changedNode)
                                     this.props.onTreeUpdate({
                                         [key]: changeNodeAtPath({
-                                            [key]: this.props.tree,
+                                            treeData: this.props[key],
                                             path,
                                             getNodeKey,
                                             newNode: { 
                                                 ...node,
-                                                max100: {
-                                                    score
-                                                }
+                                                max100: {score} 
                                             },
                                         }),
-                                    });
+                                    }, key);
                                 }}
                             />
                         </div>
@@ -133,6 +124,7 @@ class Objectives extends Component {
                         <div className={ show }>
                             <label className={ classes.Label }>Min:</label>
                             <input
+                                className={ classes.Highlight }
                                 type='number'
                                 min={0}
                                 max={100}
@@ -141,7 +133,7 @@ class Objectives extends Component {
                                     const min = event.target.value;
                                     this.props.onTreeUpdate({
                                         [key]: changeNodeAtPath({
-                                            [key]: this.props.tree,
+                                            treeData: this.props[key],
                                             path,
                                             getNodeKey,
                                             newNode: { 
@@ -157,6 +149,7 @@ class Objectives extends Component {
                             />
                             <label className={ classes.Label }>Max:</label>
                             <input
+                                className={ classes.Highlight }
                                 type='number'
                                 min={0}
                                 max={100}
@@ -165,7 +158,7 @@ class Objectives extends Component {
                                     const max = event.target.value;
                                     this.props.onTreeUpdate({
                                         [key]: changeNodeAtPath({
-                                            [key]: this.props.tree,
+                                            treeData: this.props[key],
                                             path,
                                             getNodeKey,
                                             newNode: { 
@@ -186,6 +179,7 @@ class Objectives extends Component {
                         <div className={ show }>
                             <label className={ classes.Label }>Min:</label>
                             <input
+                                className={ classes.Highlight }
                                 type='number'
                                 min={0}
                                 max={100}
@@ -194,7 +188,7 @@ class Objectives extends Component {
                                     const min = event.target.value;
                                     this.props.onTreeUpdate({
                                         [key]: changeNodeAtPath({
-                                            [key]: this.props.tree,
+                                            treeData: this.props[key],
                                             path,
                                             getNodeKey,
                                             newNode: { 
@@ -210,6 +204,7 @@ class Objectives extends Component {
                             />
                             <label className={ classes.Label }>Max:</label>
                             <input
+                                className={ classes.Highlight }
                                 type='number'
                                 min={0}
                                 max={100}
@@ -218,7 +213,7 @@ class Objectives extends Component {
                                     const max = event.target.value;
                                     this.props.onTreeUpdate({
                                         [key]: changeNodeAtPath({
-                                            [key]: this.props.tree,
+                                            treeData: this.props[key],
                                             path,
                                             getNodeKey,
                                             newNode: { 
@@ -234,6 +229,7 @@ class Objectives extends Component {
                             />
                             <label className={ classes.Label }>Score:</label>
                             <input
+                                className={ classes.Highlight }
                                 type='number'
                                 min={0}
                                 max={100}
@@ -242,7 +238,7 @@ class Objectives extends Component {
                                     const score = event.target.value;
                                     this.props.onTreeUpdate({
                                         [key]: changeNodeAtPath({
-                                            [key]: this.props.tree,
+                                            treeData: this.props[key],
                                             path,
                                             getNodeKey,
                                             newNode: { 
@@ -263,58 +259,67 @@ class Objectives extends Component {
         }
 
         const changePage = (currentPage, direction) => {
-            if(currentPage === 'max100' && direction === 'advance'){
-                this.props.history.push('/case/smarter');
+            if(direction === 'advance' && (this.state.step < this.state.steps)){
+                if(this.state.step === 0){
+                    this.expand(false)
+                }
+                if(this.state.step=== 1){
+                    this.expand(true);
+                }
+                this.setState({step: this.state.step + 1})
             }
-            if(currentPage === 'smarter' && direction === 'advance'){
-                this.props.history.push('/case/swing-weighting');
-            }
-            if(currentPage === 'swing' && direction === 'advance'){
-                return
-            }
-            if(currentPage === 'max100' && direction === 'back'){
-                return
-            }
-            if(currentPage === 'smarter' && direction === 'back'){
-                this.props.history.push('/case/max100');
-            }
-            if(currentPage === 'swing' && direction === 'back'){
-                this.props.history.push('/case/smarter');
+            if(direction === 'back' && (this.state.step >= 1)){
+                if(this.state.step === 2){
+                    this.expand(false)
+                }
+                if(this.state.step=== 1){
+                    this.expand(true);
+                }
+                this.setState({step: this.state.step - 1})
             }
         }
 
-        const disableNav = (currentPage, direction) => {
-            if(currentPage === 'max100' && direction === 'back'){
-                return true
-            }
-            if(currentPage === 'swing' && direction === 'advance'){
-                return true
-            }
-            return false
-        }
-
-        const validateTree = (tree) => {
+        const validateTree = (tree, key) => {
             const allData = getFlatDataFromTree({
                 treeData: tree,
                 getNodeKey: ({ node }) => node.id, // This ensures your "id" properties are exported in the path
                 ignoreCollapsed: false, // Makes sure you traverse every node in the tree, not just the visible ones
             }).map(({ node, path }) => ({
                 title: node.title,
-                max100: node.max100,
-                smarter: node.smarter,
-                swing: node.swing
+                [key]: node[key]
             }));
             let invalid = false;
             let errorArray = [];
             allData.map(node => {
-                if(!node.max100.score || !node.swing.min || !node.swing.max || !node.swing.score || !node.smarter.min || !node.smarter.max){
-                    errorArray.push(node.title);
-                    return invalid = true
-                } else {
-                    return invalid = false
+                if(key === 'max100'){
+                    if(!node.max100.score){
+                        errorArray.push(node.title);
+                        return invalid = true
+                    }
+                }
+                if(key === 'swing'){
+                    if(!node.swing.min || !node.swing.max || !node.swing.score){
+                        errorArray.push(node.title);
+                        return invalid = true
+                    }
+                }
+                if(key === 'smarter'){
+                    if(!node.smarter.min || !node.smarter.max){
+                        errorArray.push(node.title);
+                        return invalid = true
+                    }
                 }
             })
             return invalid
+        }
+
+        const getPageInstructions = (step) => {
+            switch(step){
+                case 0: return 'For each objective, organize the sub-objectives in your preffered order. Click on the "plus" button to the left of each objective. To move the items, click and drag the grey box on the left side of the box.'
+                case 1: return 'Rank the top-level objectives in your preffered order. (Note: You can click on the "minus" button to collapse the sub-objectives)'
+                case 2: return 'Lastly, enter the scores for each sub-objective and objective. Once all the scores have been entered, Click the submit button.'
+                default: return null
+            }
         }
 
         const getPageName = (page) => {
@@ -329,28 +334,44 @@ class Objectives extends Component {
         const advanceButton = <button
             className={ classes.Button } 
             onClick={() => changePage(this.props.config, 'advance')}
-            disabled={disableNav(this.props.config, 'advance')}>Advance</button>
+            disabled={this.state.step === this.state.steps}>Advance</button>
         
         const goBackButton = <button
             className={ classes.Button } 
             onClick={() => changePage(this.props.config, 'back')}
-            disabled={disableNav(this.props.config, 'back')}>Go Back</button>
+            disabled={this.state.step === 0}>Go Back</button>
         
         const submitButton = <button
-            className={ validateTree(this.props.tree) ? classes.None : classes.ButtonSubmit }  
-            onClick={() => this.submit(this.props.tree)}
-            disabled={validateTree(this.props.tree)}>Submit</button>
+            className={ validateTree(this.props[key], key) ? classes.None : classes.ButtonSubmit }  
+            onClick={() => this.submit(this.props[key], key)}
+            disabled={validateTree(this.props[key], key)}>Submit</button>
 
         const pageTitle = getPageName(this.props.config);
 
+        const pageInstructions = getPageInstructions(this.state.step);
+
         const modal = this.state.showModal ? (<Modal close={ this.closeModal } title={ pageTitle }/>) : null
         
+        const getCustomStyle = (step, node) => {
+            if(step === 0 && !node.children){
+                return {boxShadow: '0 0 0 3px green'}
+            } else if(step === 1 && node.children){
+                return {boxShadow: '0 0 0 3px green'}
+            } else if(step === 1 && !node.children){
+                return {color: '#ddd', pointerEvents: 'none'}
+            } else if(step === 2){
+                return null
+            } else {
+                return {color: '#ddd', pointerEvents: 'none'}
+            }
+        }
         return (
             <div className={ classes.Container }>
                 { modal }
                 <div className={ classes.Objectives }>
                     <div className={ classes.Title }>
                         <h2>{ pageTitle }</h2>
+                        <p className={ classes.Intructions }>{ pageInstructions }</p>
                     </div>
                     <div className={ classes.ObjectivesButtons }>
                         <button 
@@ -368,14 +389,15 @@ class Objectives extends Component {
                         { submitButton }
                     </div>
                     <SortableTree
-                        canDrag={ true }
+                        canDrag={ this.state.step === 2 ? false : true }
                         canDrop={ canDrop }
                         style={ {height: '80%'} }
                         rowHeight={50}
                         innerStyle={{paddingLeft: '30px'}}
                         treeData={ data }
-                        onChange={treeData => this.props.onTreeUpdate({ treeData })}
-                        generateNodeProps={({ node, path }) => ({
+                        onChange={treeData => this.props.onTreeUpdate({[key]: treeData}, key)}
+                        generateNodeProps={({ node, path }) => {
+                            return ({
                             /*title: (
                                     <input
                                         disabled
@@ -396,6 +418,7 @@ class Objectives extends Component {
                                         }}
                                     />
                             ),*/
+                            style: getCustomStyle(this.state.step, node),
                             buttons: [
                                 <button
                                     className={ classes.None }
@@ -431,6 +454,7 @@ class Objectives extends Component {
                                 getInputs(node, path)
                             ],
                         })}
+                        }
                     />
                 </div>
             </div>
@@ -448,7 +472,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onTreeUpdate: (treeData) => dispatch(actionCreators.updateTree(treeData))
+        onTreeUpdate: (treeData, key) => dispatch(actionCreators.updateTree(treeData, key))
     }
 };
 

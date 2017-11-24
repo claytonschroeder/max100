@@ -11,7 +11,7 @@ const initialState = {
             max100: {
                 score: ''
             },
-            expanded: false,
+            expanded: true,
             children: [
                 {
                     id: '90e26a30-cf20-11e7-a292-ef2ce8490bd8',
@@ -47,7 +47,7 @@ const initialState = {
             max100: {
                 score: ''
             },
-            expanded: false,
+            expanded: true,
             children: [
                 {
                     id: '99f91330-cf20-11e7-a292-ef2ce8490bd8',
@@ -91,7 +91,7 @@ const initialState = {
             max100: {
                 score: ''
             },
-            expanded: false,
+            expanded: true,
             children: [
                 {
                     id: 'a86f9ec0-cf20-11e7-a292-ef2ce8490bd8',
@@ -119,7 +119,7 @@ const initialState = {
             max100: {
                 score: ''
             },
-            expanded: false,
+            expanded: true,
             children: [
                 {
                     id: 'b17e5880-cf20-11e7-a292-ef2ce8490bd8',
@@ -151,7 +151,7 @@ const initialState = {
                 max: '',
                 score: ''
             },
-            expanded: false,
+            expanded: true,
             children: [
                 {
                     id: '90e26a30-cf20-11e7-a292-ef2ce8490bd8',
@@ -195,7 +195,7 @@ const initialState = {
                 max: '',
                 score: ''
             },
-            expanded: false,
+            expanded: true,
             children: [
                 {
                     id: '99f91330-cf20-11e7-a292-ef2ce8490bd8',
@@ -249,7 +249,7 @@ const initialState = {
                 max: '',
                 score: ''
             },
-            expanded: false,
+            expanded: true,
             children: [
                 {
                     id: 'a86f9ec0-cf20-11e7-a292-ef2ce8490bd8',
@@ -283,7 +283,7 @@ const initialState = {
                 max: '',
                 score: ''
             },
-            expanded: false,
+            expanded: true,
             children: [
                 {
                     id: 'b17e5880-cf20-11e7-a292-ef2ce8490bd8',
@@ -318,7 +318,7 @@ const initialState = {
                 min: '',
                 max: ''
             },
-            expanded: false,
+            expanded: true,
             children: [
                 {
                     id: '90e26a30-cf20-11e7-a292-ef2ce8490bd8',
@@ -358,7 +358,7 @@ const initialState = {
                 min: '',
                 max: ''
             },
-            expanded: false,
+            expanded: true,
             children: [
                 {
                     id: '99f91330-cf20-11e7-a292-ef2ce8490bd8',
@@ -407,7 +407,7 @@ const initialState = {
                 min: '',
                 max: ''
             },
-            expanded: false,
+            expanded: true,
             children: [
                 {
                     id: 'a86f9ec0-cf20-11e7-a292-ef2ce8490bd8',
@@ -438,7 +438,7 @@ const initialState = {
                 min: '',
                 max: ''
             },
-            expanded: false,
+            expanded: true,
             children: [
                 {
                     id: 'b17e5880-cf20-11e7-a292-ef2ce8490bd8',
@@ -466,8 +466,8 @@ const initialState = {
 const reducer = ( state = initialState, action ) => {
     switch ( action.type ) {
         case actionTypes.UPDATE_TREE:
-            const mergedObj = {...action.treeData, ...action.editNode}
-            return updateObject(state, mergedObj);
+            // const mergedObj = {...action.treeData, ...action.editNode}
+            return updateObject(state, action);
         default: return state
     }
 };

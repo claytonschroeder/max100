@@ -1,8 +1,8 @@
 import * as actionTypes from './actionTypes';
 
-export const updateTree = (treeData) => {
+export const updateTree = (data, key) => {
     return {
         type: actionTypes.UPDATE_TREE,
-        treeData: treeData
+        ...data
     };
 };
