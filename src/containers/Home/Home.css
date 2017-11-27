@@ -27,3 +27,7 @@
 .Centered {
     text-align: center;
 }
+
+.Input {
+    width: 60%;
+}

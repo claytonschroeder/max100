@@ -1,3 +1,4 @@
 export {
-    updateTree
+    updateTree,
+    updateName
 } from './project';

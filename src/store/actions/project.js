@@ -6,3 +6,10 @@ export const updateTree = (data, key) => {
         ...data
     };
 };
+
+export const updateName = (name) => {
+    return {
+        type: actionTypes.UPDATE_NAME,
+        name
+    };
+};

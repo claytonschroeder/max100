@@ -42,9 +42,10 @@ class Objectives extends Component {
             [key]: node[key]
         }));
         let data = {
+            name: this.props.name,
             data: flatData
         }
-        axios.post(`/${key}/.json`, data)
+        axios.post(`/${key}.json`, data)
             .then(response => {
                 this.props.history.push('/thank-you');
             })
@@ -52,6 +53,12 @@ class Objectives extends Component {
                 console.log(error)
             })
     };
+
+    showModal = () => {
+        this.setState({
+            showModal: true
+        })
+    }
 
     closeModal = (event) => {
         this.setState({
@@ -354,6 +361,9 @@ class Objectives extends Component {
                 default: return null
             }
         }
+        const infoButton = <button
+            className={ classes.Button } 
+            onClick={() => this.showModal()}>Info</button>
         const advanceButton = <button
             className={ classes.Button } 
             onClick={() => changePage(this.props.config, 'advance')}
@@ -415,6 +425,7 @@ class Objectives extends Component {
                         { goBackButton }
                         { advanceButton }
                         { submitButton }
+                        { infoButton }
                     </div>
                     <SortableTree
                         canDrag={ true }
@@ -472,6 +483,7 @@ class Objectives extends Component {
 
 const mapStateToProps = state => {
     return {
+        name: state.name,
         swing: state.swing,
         smarter: state.smarter,
         max100: state.max100

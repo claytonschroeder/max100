@@ -2,6 +2,7 @@ import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../utility';
 
 const initialState = {
+    name: '',
     max100: [
         {
             id: '8cb56250-cf20-11e7-a292-ef2ce8490bd8',
@@ -451,6 +452,8 @@ const reducer = ( state = initialState, action ) => {
     switch ( action.type ) {
         case actionTypes.UPDATE_TREE:
             // const mergedObj = {...action.treeData, ...action.editNode}
+            return updateObject(state, action);
+        case actionTypes.UPDATE_NAME:
             return updateObject(state, action);
         default: return state
     }
