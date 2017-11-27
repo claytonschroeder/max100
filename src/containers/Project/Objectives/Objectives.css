@@ -81,3 +81,8 @@
     margin: auto;
     text-align: initial;
 }
+
+.Direction {
+    display: inline-block;
+    margin-left: 15px;
+}

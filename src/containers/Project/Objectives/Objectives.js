@@ -142,12 +142,15 @@ class Objectives extends Component {
             }
         }
         const getInputs = (node, path) => {
+            console.log(node)
             let show = '';
             if(this.props.config === 'swing' || this.props.config === 'max100'){
                 if(this.state.step < ((this.state.steps + 1)/2) ){
                     show = classes.None
                 }
             }
+            const direction = node.direction ? (<div className={ classes.Direction }>Preffered Direction: {node.direction}</div>) : null;
+
             switch(this.props.config){
                 case 'max100':
                     return(
@@ -174,6 +177,7 @@ class Objectives extends Component {
                                     }, key);
                                 }}
                             />
+                            { direction }
                         </div>
                     )
                 case 'smarter':
@@ -229,6 +233,7 @@ class Objectives extends Component {
                                     });
                                 }}
                             />
+                            { direction }
                         </div>
                     )
                 case 'swing':
@@ -311,6 +316,7 @@ class Objectives extends Component {
                                     });
                                 }}
                             />
+                            { direction }
                         </div>
                     )
                 default: return null
