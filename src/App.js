@@ -4,6 +4,7 @@ import { Route, Switch, withRouter } from 'react-router-dom';
 import Thanks from './containers/Thanks/Thanks';
 import Home from './containers/Home/Home';
 import Project from './containers/Project/Project';
+import Export from './containers/Export/Export';
 import Layout from './hoc/Layout/Layout';
 
 
@@ -17,6 +18,7 @@ class App extends Component {
           <Switch>
             <Route path="/case" component={Project} />
             <Route path="/thank-you" component={Thanks} />
+            <Route path="/export" component={Export} />
             <Route path="/" exact component={Home} />
           </Switch>
         </Layout>

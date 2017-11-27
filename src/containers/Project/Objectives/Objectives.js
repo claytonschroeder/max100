@@ -22,6 +22,13 @@ class Objectives extends Component {
         steps: this.props.config === 'max100' || this.props.config === 'swing' ? (this.props[this.props.config].length * 2) + 1 : this.props[this.props.config].length
     }
 
+    componentWillMount(){
+        const name = this.props.name ? true : false;
+        if(!name){
+            this.props.history.push('/')
+        }
+    }
+
     expand = (expanded) => {
         
         // this.props.onTreeUpdate({
@@ -142,7 +149,6 @@ class Objectives extends Component {
             }
         }
         const getInputs = (node, path) => {
-            console.log(node)
             let show = '';
             if(this.props.config === 'swing' || this.props.config === 'max100'){
                 if(this.state.step < ((this.state.steps + 1)/2) ){

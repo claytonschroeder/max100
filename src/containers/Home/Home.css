@@ -24,6 +24,10 @@
     background-color: #40A4C8;
 }
 
+.Button:hover {
+    cursor: pointer;
+}
+
 .Centered {
     text-align: center;
 }
