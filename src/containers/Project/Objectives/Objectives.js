@@ -19,7 +19,7 @@ class Objectives extends Component {
         error: false,
         errorMessage: null,
         step: 0,
-        steps: (this.props[this.props.config].length * 2) + 1
+        steps: this.props.config === 'max100' || this.props.config === 'swing' ? (this.props[this.props.config].length * 2) + 1 : this.props[this.props.config].length
     }
 
     expand = (expanded) => {
@@ -102,7 +102,6 @@ class Objectives extends Component {
                 return node.expanded = false
             })
         }
-
         const key = this.props.config;
         const getNodeKey = ({ treeIndex }) => treeIndex;
         const canDrop = ({ node, nextParent, prevPath, nextPath }) => {
@@ -125,6 +124,13 @@ class Objectives extends Component {
             }
             return true;
         };
+        const canDrag = (page) => {
+            if(page === 'max100' || page === 'swing-weighting'){
+                return this.state.step <= (this.state.steps / 2)
+            } else {
+                return true
+            }
+        }
         const findScore = (node, path) => {
             let score
             if((path.length === 1) && (path[0] === 0)){
@@ -137,8 +143,10 @@ class Objectives extends Component {
         }
         const getInputs = (node, path) => {
             let show = '';
-            if(this.state.step < ((this.state.steps + 1)/2) ){
-                show = classes.None
+            if(this.props.config === 'swing' || this.props.config === 'max100'){
+                if(this.state.step < ((this.state.steps + 1)/2) ){
+                    show = classes.None
+                }
             }
             switch(this.props.config){
                 case 'max100':
@@ -146,7 +154,7 @@ class Objectives extends Component {
                         <div className={ show }>
                             <label className={ classes.Label }>Score:</label>
                             <input
-                                className={ classes.Highlight }
+                                className={ '' }
                                 type='number'
                                 min={ 0 }
                                 max={ 100 }
@@ -173,7 +181,7 @@ class Objectives extends Component {
                         <div className={ show }>
                             <label className={ classes.Label }>Min:</label>
                             <input
-                                className={ classes.Highlight }
+                                className={ '' }
                                 type='number'
                                 min={ 0 }
                                 max={ 100 }
@@ -198,7 +206,7 @@ class Objectives extends Component {
                             />
                             <label className={ classes.Label }>Max:</label>
                             <input
-                                className={ classes.Highlight }
+                                className={ '' }
                                 type='number'
                                 min={ 0 }
                                 max={ 100 }
@@ -229,7 +237,7 @@ class Objectives extends Component {
                             <label className={ classes.Label }>Min:</label>
                             <input
                                 disabled
-                                className={ classes.Highlight }
+                                className={ '' }
                                 type='number'
                                 min={ 0 }
                                 max={ 100 }
@@ -255,7 +263,7 @@ class Objectives extends Component {
                             <label className={ classes.Label }>Max:</label>
                             <input
                                 disabled
-                                className={ classes.Highlight }
+                                className={ '' }
                                 type='number'
                                 min={ 0 }
                                 max={ 100 }
@@ -280,7 +288,7 @@ class Objectives extends Component {
                             />
                             <label className={ classes.Label }>Score:</label>
                             <input
-                                className={ classes.Highlight }
+                                className={ '' }
                                 type='number'
                                 min={ 0 }
                                 max={ 100 }
@@ -318,7 +326,11 @@ class Objectives extends Component {
         }
         const validateTree = (tree, key) => {
             if(key === 'smarter'){
-                return false
+               if(this.state.step === this.state.steps){
+                    return false
+                } else {
+                    return true
+                }
             }
             const allData = getFlatDataFromTree({
                 treeData: tree,
@@ -428,7 +440,7 @@ class Objectives extends Component {
                         { infoButton }
                     </div>
                     <SortableTree
-                        canDrag={ this.state.step <= (this.state.steps / 2) }
+                        canDrag={ canDrag(this.props.config) }
                         canDrop={ canDrop }
                         style={ {height: '80%'} }
                         rowHeight={50}
