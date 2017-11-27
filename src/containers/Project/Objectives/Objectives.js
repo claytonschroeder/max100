@@ -428,7 +428,7 @@ class Objectives extends Component {
                         { infoButton }
                     </div>
                     <SortableTree
-                        canDrag={ true }
+                        canDrag={ this.state.step <= (this.state.steps / 2) }
                         canDrop={ canDrop }
                         style={ {height: '80%'} }
                         rowHeight={50}
