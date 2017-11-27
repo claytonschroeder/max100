@@ -11,7 +11,7 @@ const initialState = {
             max100: {
                 score: ''
             },
-            expanded: true,
+            expanded: false,
             children: [
                 {
                     id: '90e26a30-cf20-11e7-a292-ef2ce8490bd8',
@@ -47,7 +47,7 @@ const initialState = {
             max100: {
                 score: ''
             },
-            expanded: true,
+            expanded: false,
             children: [
                 {
                     id: '99f91330-cf20-11e7-a292-ef2ce8490bd8',
@@ -91,7 +91,7 @@ const initialState = {
             max100: {
                 score: ''
             },
-            expanded: true,
+            expanded: false,
             children: [
                 {
                     id: 'a86f9ec0-cf20-11e7-a292-ef2ce8490bd8',
@@ -119,7 +119,7 @@ const initialState = {
             max100: {
                 score: ''
             },
-            expanded: true,
+            expanded: false,
             children: [
                 {
                     id: 'b17e5880-cf20-11e7-a292-ef2ce8490bd8',
@@ -151,7 +151,7 @@ const initialState = {
                 max: 100,
                 score: ''
             },
-            expanded: true,
+            expanded: false,
             children: [
                 {
                     id: '90e26a30-cf20-11e7-a292-ef2ce8490bd8',
@@ -195,7 +195,7 @@ const initialState = {
                 max: 60,
                 score: ''
             },
-            expanded: true,
+            expanded: false,
             children: [
                 {
                     id: '99f91330-cf20-11e7-a292-ef2ce8490bd8',
@@ -249,7 +249,7 @@ const initialState = {
                 max: 15,
                 score: ''
             },
-            expanded: true,
+            expanded: false,
             children: [
                 {
                     id: 'a86f9ec0-cf20-11e7-a292-ef2ce8490bd8',
@@ -283,7 +283,7 @@ const initialState = {
                 max: 10,
                 score: ''
             },
-            expanded: true,
+            expanded: false,
             children: [
                 {
                     id: 'b17e5880-cf20-11e7-a292-ef2ce8490bd8',
@@ -318,7 +318,7 @@ const initialState = {
                 min: '',
                 max: ''
             },
-            expanded: true,
+            expanded: false,
             children: [
                 {
                     id: '90e26a30-cf20-11e7-a292-ef2ce8490bd8',
@@ -358,7 +358,7 @@ const initialState = {
                 min: '',
                 max: ''
             },
-            expanded: true,
+            expanded: false,
             children: [
                 {
                     id: '99f91330-cf20-11e7-a292-ef2ce8490bd8',
@@ -407,7 +407,7 @@ const initialState = {
                 min: '',
                 max: ''
             },
-            expanded: true,
+            expanded: false,
             children: [
                 {
                     id: 'a86f9ec0-cf20-11e7-a292-ef2ce8490bd8',
@@ -438,7 +438,7 @@ const initialState = {
                 min: '',
                 max: ''
             },
-            expanded: true,
+            expanded: false,
             children: [
                 {
                     id: 'b17e5880-cf20-11e7-a292-ef2ce8490bd8',
