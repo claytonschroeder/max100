@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import SortableTree, { addNodeUnderParent, removeNodeAtPath, changeNodeAtPath, getFlatDataFromTree } from 'react-sortable-tree';
@@ -12,31 +12,23 @@ import classes from './Objectives.css';
 import { newNode } from './ObjectiveHelpers/ObjectiveHelpers';
 
 
-class Objectives extends Component {
+class Objectives extends PureComponent {
     state = {
+        validationArray: [],
         showModal: true,
         loading: false,
         error: false,
         errorMessage: null,
         step: 0,
-        steps: this.props.config === 'max100' || this.props.config === 'swing' ? (this.props[this.props.config].length * 2) + 1 : this.props[this.props.config].length
+        steps: this.props.config === 'max100' || this.props.config === 'swing' ? (this.props[this.props.config].length * 2) + 2 : this.props[this.props.config].length + 1
     }
 
     componentWillMount(){
+        // cofirms the user has supplied a name before starting
         const name = this.props.name ? true : false;
         if(!name){
             this.props.history.push('/')
         }
-    }
-
-    expand = (expanded) => {
-        
-        // this.props.onTreeUpdate({
-        //     [this.props.config]: toggleExpandedForAll({
-        //         treeData: this.props[this.props.config],
-        //         expanded,
-        //     }),
-        // });
     }
 
     submit = (tree, key) => {
@@ -75,22 +67,24 @@ class Objectives extends Component {
 
     render () {
         const tree = [...this.props[this.props.config]]
-        tree.map((node, index) => {
-            if(index === 0){
-                node[this.props.config].score = '100'
-            }
-            node.children.map((child, index) => {
+        if(this.props.config !== 'smarter' && (this.state.step > ((this.state.steps -1)/2)) ){
+            tree.map((node, index) => {
                 if(index === 0){
-                    child[this.props.config].score = '100'
+                    node[this.props.config].score = '100'
                 }
+                node.children.map((child, i) => {
+                    if(i === 0){
+                        child[this.props.config].score = '100'
+                    }
+                })
             })
-        })
+        }
         if(this.state.step < (tree.length)){
             tree.map((node, index) => {
                 if(this.state.step === index){
-                    node.expanded = true
+                    return node.expanded = true
                 } else {
-                    node.expanded = false
+                    return node.expanded = false
                 }
             })
         }
@@ -98,15 +92,20 @@ class Objectives extends Component {
             const step = this.state.step - 5;
             tree.map((node, index) => {
                 if(step === index){
-                    node.expanded = true
+                    return node.expanded = true
                 } else {
-                    node.expanded = false
+                    return node.expanded = false
                 }
             })
         }
         if(this.state.step === tree.length){
             tree.map((node, index) => {
                 return node.expanded = false
+            })
+        }
+        if(this.state.step === this.state.steps){
+            tree.map((node, index) => {
+                return node.expanded = true
             })
         }
         const key = this.props.config;
@@ -132,42 +131,38 @@ class Objectives extends Component {
             return true;
         };
         const canDrag = (page) => {
+            if(this.state.step === this.state.steps){
+                return true
+            }
             if(page === 'max100' || page === 'swing-weighting'){
-                return this.state.step <= (this.state.steps / 2)
+                return this.state.step <= ((this.state.steps - 1) / 2)
             } else {
                 return true
             }
         }
-        const findScore = (node, path) => {
-            let score
-            if((path.length === 1) && (path[0] === 0)){
-                score = 100;
-                return score
-            } else {
-                score = node.max100.score ? node.max100.score : ''
-                return score
-            }
-        }
+
         const getInputs = (node, path) => {
             let show = '';
             if(this.props.config === 'swing' || this.props.config === 'max100'){
-                if(this.state.step < ((this.state.steps + 1)/2) ){
+                if(this.state.step < ((this.state.steps)/2) ){
+                    show = classes.None
+                }
+                if(this.state.step < (this.state.steps - 1) && node.children){
                     show = classes.None
                 }
             }
-            const direction = node.direction ? (<div className={ classes.Direction }>Preffered Direction: {node.direction}</div>) : null;
 
             switch(this.props.config){
                 case 'max100':
                     return(
                         <div className={ show }>
-                            <label className={ classes.Label }>Score:</label>
+                            <label className={ classes.Label }>Rating:</label>
                             <input
                                 className={ '' }
                                 type='number'
                                 min={ 0 }
                                 max={ 100 }
-                                value={ findScore(node, path)}
+                                value={ node.max100.score ? node.max100.score : ''}
                                 onChange={event => {
                                     const score = event.target.value;
                                     this.props.onTreeUpdate({
@@ -183,7 +178,6 @@ class Objectives extends Component {
                                     }, key);
                                 }}
                             />
-                            { direction }
                         </div>
                     )
                 case 'smarter':
@@ -241,7 +235,6 @@ class Objectives extends Component {
                                     });
                                 }}
                             />
-                            { direction }
                         </div>
                     )
                 case 'swing':
@@ -299,7 +292,7 @@ class Objectives extends Component {
                                     });
                                 }}
                             />
-                            <label className={ classes.Label }>Score:</label>
+                            <label className={ classes.Label }>Rating:</label>
                             <input
                                 className={ '' }
                                 type='number'
@@ -324,7 +317,6 @@ class Objectives extends Component {
                                     });
                                 }}
                             />
-                            { direction }
                         </div>
                     )
                 default: return null
@@ -339,6 +331,9 @@ class Objectives extends Component {
             }
         }
         const validateTree = (tree, key) => {
+            if(this.state.step !== this.state.steps){
+                return true
+            }
             if(key === 'smarter'){
                if(this.state.step === this.state.steps){
                     return false
@@ -355,28 +350,40 @@ class Objectives extends Component {
                 [key]: node[key]
             }));
             let invalid
-            let errorArray = [];
+            let validationArray = [];
             allData.map(node => {
                 if(!node[key].score){
-                    errorArray.push(node.title);
+                    validationArray.push(node.title);
                 }
-                invalid = errorArray.length > 0 ? true : false
+                invalid = validationArray.length > 0 ? true : false
             })
             return invalid
         }
         const getPageInstructions = (step) => {
+            if(this.props.config === 'smarter'){
+                switch(step){
+                    case 0: return 'Please drag and drop the sub-objectives in order from most important to least important.';
+                    case 1: return 'Please drag and drop the sub-objectives in order from most important to least important.';
+                    case 2: return 'Please drag and drop the sub-objectives in order from most important to least important.';
+                    case 3: return 'Please drag and drop the sub-objectives in order from most important to least important.';
+                    case 4: return 'Please drag and drop the objectives in order for most important to least important';
+                    case 5: return 'Please review your ranks and rating for each objective and sub-objective. All fields must be filled in to submit.';
+                    default: return null;
+                }
+            }
             switch(step){
-                case 0: return 'Please drag and drop the sub-objectives in order from most important to least important.'
-                case 1: return 'Please drag and drop the sub-objectives in order from most important to least important.'
-                case 2: return 'Please drag and drop the sub-objectives in order from most important to least important.'
-                case 3: return 'Please drag and drop the sub-objectives in order from most important to least important.'
-                case 4: return 'Please drag and drop the objectives in order for most important to least important'
-                case 5: return 'Please provide a score to the sub-objectives on a scale of 0-100. Your top ranked sub-objective should recieve a score of 100, while the rest should recieve score below 100.'
-                case 6: return 'Please provide a score to the sub-objectives on a scale of 0-100. Your top ranked sub-objective should recieve a score of 100, while the rest should recieve score below 100.'
-                case 7: return 'Please provide a score to the sub-objectives on a scale of 0-100. Your top ranked sub-objective should recieve a score of 100, while the rest should recieve score below 100.'
-                case 8: return 'Please provide a score to the sub-objectives on a scale of 0-100. Your top ranked sub-objective should recieve a score of 100, while the rest should recieve score below 100.'
-                case 9: return 'Please provide a score to the objectives on a scale of 0-100. Your top ranked objective should recieve a score of 100, while the rest should recieve score below 100.'
-                default: return null
+                case 0: return 'Please drag and drop the sub-objectives in order from most important to least important.';
+                case 1: return 'Please drag and drop the sub-objectives in order from most important to least important.';
+                case 2: return 'Please drag and drop the sub-objectives in order from most important to least important.';
+                case 3: return 'Please drag and drop the sub-objectives in order from most important to least important.';
+                case 4: return 'Please drag and drop the objectives in order for most important to least important';
+                case 5: return 'Please provide a rating to the sub-objectives on a scale of 0-100. Your top ranked sub-objective should recieve a score of 100, while the rest should recieve score below 100.';
+                case 6: return 'Please provide a rating to the sub-objectives on a scale of 0-100. Your top ranked sub-objective should recieve a score of 100, while the rest should recieve score below 100.';
+                case 7: return 'Please provide a rating to the sub-objectives on a scale of 0-100. Your top ranked sub-objective should recieve a score of 100, while the rest should recieve score below 100.';
+                case 8: return 'Please provide a rating to the sub-objectives on a scale of 0-100. Your top ranked sub-objective should recieve a score of 100, while the rest should recieve score below 100.';
+                case 9: return 'Please provide a rating to the objectives on a scale of 0-100. Your top ranked objective should recieve a score of 100, while the rest should recieve score below 100.';
+                case 10: return 'Please review your ranks and rating for each objective and sub-objective. All fields must be filled in to submit.';
+                default: return null;
             }
         }
         const getPageName = (page) => {
@@ -387,13 +394,53 @@ class Objectives extends Component {
                 default: return null
             }
         }
+
+        const validateAdvance = (step, steps) => {
+            if(step === steps){
+                return true
+            }
+            if(this.props.config !== 'smarter'){
+                let index;
+                let validateAdvanceArray = [];
+                if(step >= (steps/2)){
+                    index = (step - (steps/2))
+                    if(index === tree.length){
+                        tree.map(objective => {
+                            if(objective[this.props.config].score === ''){
+                                return validateAdvanceArray.push(objective)
+                            }
+                        })
+                    }
+                    tree.map((objs, i) => {
+                        if(i === index){
+                            objs.children.map(child => {
+                                if(child[this.props.config].score === ''){
+                                   return validateAdvanceArray.push(child)
+                                }
+                            })
+                        }
+                    })
+                    if(validateAdvanceArray.length > 0){
+                        return true
+                    } else {
+                        return false
+                    }
+                }
+                if(step === steps){
+                    return true
+                }
+            } else {
+                return false
+            }
+        }
+
         const infoButton = <button
             className={ classes.Button } 
             onClick={() => this.showModal()}>Info</button>
         const advanceButton = <button
             className={ classes.Button } 
             onClick={() => changePage(this.props.config, 'advance')}
-            disabled={this.state.step === this.state.steps}>Advance</button>
+            disabled={ validateAdvance(this.state.step, this.state.steps)}>Advance</button>
         const goBackButton = <button
             className={ classes.Button } 
             onClick={() => changePage(this.props.config, 'back')}
@@ -407,7 +454,6 @@ class Objectives extends Component {
         const pageTitle = getPageName(this.props.config);
         const pageInstructions = getPageInstructions(this.state.step);
         const modal = this.state.showModal ? (<Modal close={ this.closeModal } title={ pageTitle }/>) : null
-        
         const getCustomStyle = (step, node) => {
             if(step < tree.length && !node.children){
                 return {boxShadow: '0 0 0 3px green'}
@@ -421,10 +467,13 @@ class Objectives extends Component {
             if(step > tree.length && !node.children){
                 return {boxShadow: '0 0 0 3px green'}
             }
-            if(step > tree.length && step < this.state.steps && node.children){
+            if(step > tree.length && step < (this.state.steps -1) && node.children){
                 return {color: '#ddd', pointerEvents: 'none'}
             }
-            if(step === this.state.steps && node.children){
+            if(step === (this.state.steps - 1) && node.children){
+                return {boxShadow: '0 0 0 3px green'}
+            }
+            if(step === this.state.steps){
                 return {boxShadow: '0 0 0 3px green'}
             }
         }
