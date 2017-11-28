@@ -16,16 +16,41 @@
     text-align: center;
 }
 
-.Button {
+.DisabledButton {
+    font-size: 16px;
+    border-radius: 20px; 
     padding: 10px 20px;
     text-decoration: none;
     font-weight: bold;
     color: #fff;
-    background-color: #40A4C8;
+    background-color: rgb(159, 162, 163);
+}
+
+.DisabledButton:hover {
+    cursor: no-drop;
+}
+
+.Button {
+    font-size: 16px;
+    border-radius: 20px;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-weight: bold;
+    color: #fff;
+    background-color: #0c8aba;
+    outline: none;
 }
 
 .Button:hover {
     cursor: pointer;
+}
+
+.CenteredTitle {
+    text-align: center;
+    background-color: #0c8aba;
+    color: white;
+    padding: 15px;
+    border-radius: 30px;
 }
 
 .Centered {

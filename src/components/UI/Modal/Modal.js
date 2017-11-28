@@ -38,7 +38,9 @@ const modal = (props) => {
             <div className={classes.Modal}>
                 <h4>{ props.title }</h4>
                 { body }
-                <button onClick={() => props.close()}>Close</button>
+                <div className={ classes.Centered }>
+                <button className={ classes.Button } onClick={() => props.close()}>Close</button>
+                </div>
             </div>
         </div>
     );
