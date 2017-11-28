@@ -46,7 +46,8 @@ class Objectives extends PureComponent {
         }
         axios.post(`/${key}.json`, data)
             .then(response => {
-                this.props.history.push('/thank-you');
+                //replace the history so user cannot navigate back
+                this.props.history.replace('/thank-you');
             })
             .catch(error => {
                 console.log(error)
