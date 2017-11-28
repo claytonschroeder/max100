@@ -31,9 +31,6 @@ class Export extends Component {
                         swingArray.push(swing[key]);
                     }
                 }
-                console.log(max100Array);
-                console.log(swingArray);
-                console.log(smarterArray);
                 this.setState({
                     max100Data: max100Array,
                     swingData: swingArray,

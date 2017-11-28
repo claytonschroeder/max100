@@ -191,6 +191,7 @@ class Objectives extends Component {
                         <div className={ show }>
                             <label className={ classes.Label }>Min:</label>
                             <input
+                                disabled
                                 className={ '' }
                                 type='number'
                                 min={ 0 }
@@ -216,6 +217,7 @@ class Objectives extends Component {
                             />
                             <label className={ classes.Label }>Max:</label>
                             <input
+                                disabled
                                 className={ '' }
                                 type='number'
                                 min={ 0 }

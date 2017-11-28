@@ -141,8 +141,8 @@ const initialState = {
             grandkids: false,
             title: 'Human Health Concern',
             swing: {
-                min: 25,
-                max: 100,
+                min: '25',
+                max: '100',
                 score: ''
             },
             expanded: false,
@@ -153,8 +153,8 @@ const initialState = {
                     direction: 'higher',
                     trapped: true,
                     swing: {
-                        min: 10,
-                        max: 50,
+                        min: '10',
+                        max: '50',
                         score: ''
                     },
                 },
@@ -164,8 +164,8 @@ const initialState = {
                     direction: 'higher',
                     trapped: true,
                     swing: {
-                        min: 10,
-                        max: 15,
+                        min: '10',
+                        max: '15',
                         score: ''
                     },
                 },
@@ -175,8 +175,8 @@ const initialState = {
                     direction: 'higher',
                     trapped: true,
                     swing: {
-                        min: 10,
-                        max: 20,
+                        min: '10',
+                        max: '20',
                         score: ''
                     },
                 },
@@ -186,8 +186,8 @@ const initialState = {
                     direction: 'lower',
                     trapped: true,
                     swing: {
-                        min: 10,
-                        max: 20,
+                        min: '10',
+                        max: '20',
                         score: ''
                     },
                 }
@@ -199,8 +199,8 @@ const initialState = {
             grandkids: false,
             title: 'Ecological Concern',
             swing: {
-                min: 10,
-                max: 60,
+                min: '10',
+                max: '60',
                 score: ''
             },
             expanded: false,
@@ -211,8 +211,8 @@ const initialState = {
                     direction: 'lower',
                     trapped: true,
                     swing: {
-                        min: 20,
-                        max: 100,
+                        min: '20',
+                        max: '100',
                         score: ''
                     },
                 },
@@ -222,8 +222,8 @@ const initialState = {
                     direction: 'lower',
                     trapped: true,
                     swing: {
-                        min: 5,
-                        max: 20,
+                        min: '5',
+                        max: '20',
                         score: ''
                     },
                 }
@@ -235,8 +235,8 @@ const initialState = {
             grandkids: false,
             title: 'Technical Performance',
             swing: {
-                min: 5,
-                max: 15,
+                min: '5',
+                max: '15',
                 score: ''
             },
             expanded: false,
@@ -247,8 +247,8 @@ const initialState = {
                     direction: 'higher',
                     trapped: true,
                     swing: {
-                        min: 10,
-                        max: 50,
+                        min: '10',
+                        max: '50',
                         score: ''
                     },
                 },
@@ -258,8 +258,8 @@ const initialState = {
                     direction: 'higher',
                     trapped: true,
                     swing: {
-                        min: 10,
-                        max: 20,
+                        min: '10',
+                        max: '20',
                         score: ''
                     },
                 }
@@ -271,8 +271,8 @@ const initialState = {
             grandkids: false,
             title: 'Cost',
             swing: {
-                min: 5,
-                max: 10,
+                min: '5',
+                max: '10',
                 score: ''
             },
             expanded: false,
@@ -283,8 +283,8 @@ const initialState = {
                     direction: 'lower',
                     trapped: true,
                     swing: {
-                        min: 10,
-                        max: 20,
+                        min: '10',
+                        max: '20',
                         score: ''
                     },
                 }
@@ -298,8 +298,8 @@ const initialState = {
             grandkids: false,
             title: 'Human Health Concern',
             smarter: {
-                min: '',
-                max: ''
+                min: '10',
+                max: '25'
             },
             expanded: false,
             children: [
@@ -309,8 +309,8 @@ const initialState = {
                     direction: 'higher',
                     trapped: true,
                     smarter: {
-                        min: '',
-                        max: ''
+                        min: '15',
+                        max: '20'
                     },
                 },
                 {
@@ -319,8 +319,8 @@ const initialState = {
                     direction: 'higher',
                     trapped: true,
                     smarter: {
-                        min: '',
-                        max: ''
+                        min: '25',
+                        max: '60'
                     },
                 },
                 {
@@ -329,8 +329,8 @@ const initialState = {
                     direction: 'higher',
                     trapped: true,
                     smarter: {
-                        min: '',
-                        max: ''
+                        min: '41',
+                        max: '67'
                     },
                 },
                 {
@@ -339,8 +339,8 @@ const initialState = {
                     direction: 'lower',
                     trapped: true,
                     smarter: {
-                        min: '',
-                        max: ''
+                        min: '50',
+                        max: '5'
                     },
                 }
             ]
@@ -351,8 +351,8 @@ const initialState = {
             grandkids: false,
             title: 'Ecological Concern',
             smarter: {
-                min: '',
-                max: ''
+                min: '32',
+                max: '23'
             },
             expanded: false,
             children: [
@@ -362,8 +362,8 @@ const initialState = {
                     direction: 'lower',
                     trapped: true,
                     smarter: {
-                        min: '',
-                        max: ''
+                        min: '40',
+                        max: '4'
                     },
                 },
                 {
@@ -372,8 +372,8 @@ const initialState = {
                     direction: 'lower',
                     trapped: true,
                     smarter: {
-                        min: '',
-                        max: ''
+                        min: '50',
+                        max: '5'
                     },
                 }
             ]
@@ -384,8 +384,8 @@ const initialState = {
             grandkids: false,
             title: 'Technical Performance',
             smarter: {
-                min: '',
-                max: ''
+                min: '5',
+                max: '50'
             },
             expanded: false,
             children: [
@@ -395,8 +395,8 @@ const initialState = {
                     direction: 'higher',
                     trapped: true,
                     smarter: {
-                        min: '',
-                        max: ''
+                        min: '10',
+                        max: '40'
                     },
                 },
                 {
@@ -405,8 +405,8 @@ const initialState = {
                     direction: 'higher',
                     trapped: true,
                     smarter: {
-                        min: '',
-                        max: ''
+                        min: '22',
+                        max: '33'
                     },
                 }
             ]
@@ -417,8 +417,8 @@ const initialState = {
             grandkids: false,
             title: 'Cost',
             smarter: {
-                min: '',
-                max: ''
+                min: '43',
+                max: '23'
             },
             expanded: false,
             children: [
@@ -428,8 +428,8 @@ const initialState = {
                     direction: 'lower',
                     trapped: true,
                     smarter: {
-                        min: '',
-                        max: ''
+                        min: '12',
+                        max: '32'
                     },
                 }
             ]
