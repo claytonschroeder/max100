@@ -20,7 +20,7 @@ class Objectives extends PureComponent {
         error: false,
         errorMessage: null,
         step: 0,
-        steps: this.props.config === 'max100' || this.props.config === 'swing' ? (this.props[this.props.config].length * 2) + 2 : this.props[this.props.config].length + 1
+        steps: (this.props.config === 'max100' || this.props.config === 'swing') ? ((this.props[this.props.config].length * 2) + 2) : (this.props[this.props.config].length + 1)
     }
     
     componentWillMount(){
@@ -35,7 +35,10 @@ class Objectives extends PureComponent {
         axios.get(`/${this.props.config}structure.json`)
             .then(response => {
                 this.props.onTreeUpdate({[this.props.config]: response.data.data})
-                this.setState({loading: false})
+                this.setState({
+                    loading: false,
+                    steps: (this.props.config === 'max100' || this.props.config === 'swing') ? ((response.data.data.length * 2) + 2) : (response.data.data.length + 1)
+                })
             })
             .catch(err => {
                 alert(err)
@@ -294,19 +297,16 @@ class Objectives extends PureComponent {
             return invalid
         }
         const getPageInstructions = (step, steps) => {
-            console.log(step, steps)
-
             if(this.props.config === 'smarter'){
-
-                // switch(step){
-                //     case 0: return 'Please drag and drop the sub-objectives in order from most important to least important.';
-                //     case 1: return 'Please drag and drop the sub-objectives in order from most important to least important.';
-                //     case 2: return 'Please drag and drop the sub-objectives in order from most important to least important.';
-                //     case 3: return 'Please drag and drop the sub-objectives in order from most important to least important.';
-                //     case 4: return 'Please drag and drop the objectives in order for most important to least important';
-                //     case 5: return 'Please review your ranks and rating for each objective and sub-objective. All fields must be filled in to submit.';
-                //     default: return null;
-                // }
+                if(step < ((steps-1))){
+                    return 'Please drag and drop the sub-objectives in order from most important to least important.'
+                }
+                if(step === (steps -1)){
+                    return 'Please drag and drop the objectives in order for most important to least important'
+                }
+                if(step === steps){
+                    return 'Please review your ranks and rating for each objective and sub-objective.'
+                }
             } else {
                 if(step < ((steps/2)-1)){
                     return 'Please drag and drop the sub-objectives in order from most important to least important.'
@@ -324,20 +324,6 @@ class Objectives extends PureComponent {
                     return 'Please review your ranks and rating for each objective and sub-objective. All fields must be filled in to submit.'
                 }
             }
-            // switch(step){
-            //     case 0: return 'Please drag and drop the sub-objectives in order from most important to least important.';
-            //     case 1: return 'Please drag and drop the sub-objectives in order from most important to least important.';
-            //     case 2: return 'Please drag and drop the sub-objectives in order from most important to least important.';
-            //     case 3: return 'Please drag and drop the sub-objectives in order from most important to least important.';
-            //     case 4: return 'Please drag and drop the objectives in order for most important to least important';
-            //     case 5: return 'Please provide a rating to the sub-objectives on a scale of 0-100. Your top ranked sub-objective should recieve a score of 100, while the rest should recieve score below 100.';
-            //     case 6: return 'Please provide a rating to the sub-objectives on a scale of 0-100. Your top ranked sub-objective should recieve a score of 100, while the rest should recieve score below 100.';
-            //     case 7: return 'Please provide a rating to the sub-objectives on a scale of 0-100. Your top ranked sub-objective should recieve a score of 100, while the rest should recieve score below 100.';
-            //     case 8: return 'Please provide a rating to the sub-objectives on a scale of 0-100. Your top ranked sub-objective should recieve a score of 100, while the rest should recieve score below 100.';
-            //     case 9: return 'Please provide a rating to the objectives on a scale of 0-100. Your top ranked objective should recieve a score of 100, while the rest should recieve score below 100.';
-            //     case 10: return 'Please review your ranks and rating for each objective and sub-objective. All fields must be filled in to submit.';
-            //     default: return null;
-            // }
         }
         const getPageName = (page) => {
             switch(page){
