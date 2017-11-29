@@ -16,19 +16,30 @@ class Objectives extends PureComponent {
     state = {
         validationArray: [],
         showModal: true,
-        loading: false,
+        loading: true,
         error: false,
         errorMessage: null,
         step: 0,
         steps: this.props.config === 'max100' || this.props.config === 'swing' ? (this.props[this.props.config].length * 2) + 2 : this.props[this.props.config].length + 1
     }
-
+    
     componentWillMount(){
         // cofirms the user has supplied a name before starting
         const name = this.props.name ? true : false;
         if(!name){
             this.props.history.push('/')
         }
+    }
+
+    componentDidMount(){
+        axios.get(`/${this.props.config}structure.json`)
+            .then(response => {
+                this.props.onTreeUpdate({[this.props.config]: response.data.data})
+                this.setState({loading: false})
+            })
+            .catch(err => {
+                alert(err)
+            })
     }
 
     submit = (tree, key) => {
@@ -67,6 +78,10 @@ class Objectives extends PureComponent {
     };
 
     render () {
+        let loading = null;
+        if(this.state.loading){
+            loading = (<p>Loading...</p>)
+        }
         const tree = [...this.props[this.props.config]]
         if(this.props.config !== 'smarter' && (this.state.step > ((this.state.steps -1)/2)) ){
             tree.map((node, index) => {
@@ -90,7 +105,7 @@ class Objectives extends PureComponent {
             })
         }
         if(this.state.step > tree.length){
-            const step = this.state.step - 5;
+            const step = this.state.step - (this.state.steps/2);
             tree.map((node, index) => {
                 if(step === index){
                     return node.expanded = true
@@ -278,32 +293,51 @@ class Objectives extends PureComponent {
             })
             return invalid
         }
-        const getPageInstructions = (step) => {
+        const getPageInstructions = (step, steps) => {
+            console.log(step, steps)
+
             if(this.props.config === 'smarter'){
-                switch(step){
-                    case 0: return 'Please drag and drop the sub-objectives in order from most important to least important.';
-                    case 1: return 'Please drag and drop the sub-objectives in order from most important to least important.';
-                    case 2: return 'Please drag and drop the sub-objectives in order from most important to least important.';
-                    case 3: return 'Please drag and drop the sub-objectives in order from most important to least important.';
-                    case 4: return 'Please drag and drop the objectives in order for most important to least important';
-                    case 5: return 'Please review your ranks and rating for each objective and sub-objective. All fields must be filled in to submit.';
-                    default: return null;
+
+                // switch(step){
+                //     case 0: return 'Please drag and drop the sub-objectives in order from most important to least important.';
+                //     case 1: return 'Please drag and drop the sub-objectives in order from most important to least important.';
+                //     case 2: return 'Please drag and drop the sub-objectives in order from most important to least important.';
+                //     case 3: return 'Please drag and drop the sub-objectives in order from most important to least important.';
+                //     case 4: return 'Please drag and drop the objectives in order for most important to least important';
+                //     case 5: return 'Please review your ranks and rating for each objective and sub-objective. All fields must be filled in to submit.';
+                //     default: return null;
+                // }
+            } else {
+                if(step < ((steps/2)-1)){
+                    return 'Please drag and drop the sub-objectives in order from most important to least important.'
+                }
+                if(step === ((steps/2)-1)){
+                    return 'Please drag and drop the objectives in order from most important to least important.'
+                }
+                if(step > ((steps/2)-1) && (step !== steps)){
+                    return 'Please provide a rating to the sub-objectives on a scale of 0-100. Your top ranked sub-objective should recieve a score of 100, while the rest should recieve score below 100.'
+                }
+                if(step === ((steps/2)-1)){
+                    return 'Please provide a rating to the objectives on a scale of 0-100. Your top ranked sub-objective should recieve a score of 100, while the rest should recieve score below 100.'
+                }
+                if(step === steps){
+                    return 'Please review your ranks and rating for each objective and sub-objective. All fields must be filled in to submit.'
                 }
             }
-            switch(step){
-                case 0: return 'Please drag and drop the sub-objectives in order from most important to least important.';
-                case 1: return 'Please drag and drop the sub-objectives in order from most important to least important.';
-                case 2: return 'Please drag and drop the sub-objectives in order from most important to least important.';
-                case 3: return 'Please drag and drop the sub-objectives in order from most important to least important.';
-                case 4: return 'Please drag and drop the objectives in order for most important to least important';
-                case 5: return 'Please provide a rating to the sub-objectives on a scale of 0-100. Your top ranked sub-objective should recieve a score of 100, while the rest should recieve score below 100.';
-                case 6: return 'Please provide a rating to the sub-objectives on a scale of 0-100. Your top ranked sub-objective should recieve a score of 100, while the rest should recieve score below 100.';
-                case 7: return 'Please provide a rating to the sub-objectives on a scale of 0-100. Your top ranked sub-objective should recieve a score of 100, while the rest should recieve score below 100.';
-                case 8: return 'Please provide a rating to the sub-objectives on a scale of 0-100. Your top ranked sub-objective should recieve a score of 100, while the rest should recieve score below 100.';
-                case 9: return 'Please provide a rating to the objectives on a scale of 0-100. Your top ranked objective should recieve a score of 100, while the rest should recieve score below 100.';
-                case 10: return 'Please review your ranks and rating for each objective and sub-objective. All fields must be filled in to submit.';
-                default: return null;
-            }
+            // switch(step){
+            //     case 0: return 'Please drag and drop the sub-objectives in order from most important to least important.';
+            //     case 1: return 'Please drag and drop the sub-objectives in order from most important to least important.';
+            //     case 2: return 'Please drag and drop the sub-objectives in order from most important to least important.';
+            //     case 3: return 'Please drag and drop the sub-objectives in order from most important to least important.';
+            //     case 4: return 'Please drag and drop the objectives in order for most important to least important';
+            //     case 5: return 'Please provide a rating to the sub-objectives on a scale of 0-100. Your top ranked sub-objective should recieve a score of 100, while the rest should recieve score below 100.';
+            //     case 6: return 'Please provide a rating to the sub-objectives on a scale of 0-100. Your top ranked sub-objective should recieve a score of 100, while the rest should recieve score below 100.';
+            //     case 7: return 'Please provide a rating to the sub-objectives on a scale of 0-100. Your top ranked sub-objective should recieve a score of 100, while the rest should recieve score below 100.';
+            //     case 8: return 'Please provide a rating to the sub-objectives on a scale of 0-100. Your top ranked sub-objective should recieve a score of 100, while the rest should recieve score below 100.';
+            //     case 9: return 'Please provide a rating to the objectives on a scale of 0-100. Your top ranked objective should recieve a score of 100, while the rest should recieve score below 100.';
+            //     case 10: return 'Please review your ranks and rating for each objective and sub-objective. All fields must be filled in to submit.';
+            //     default: return null;
+            // }
         }
         const getPageName = (page) => {
             switch(page){
@@ -371,7 +405,7 @@ class Objectives extends PureComponent {
             disabled={validateTree(tree, key)}>Submit</button>
 
         const pageTitle = getPageName(this.props.config);
-        const pageInstructions = getPageInstructions(this.state.step);
+        const pageInstructions = getPageInstructions(this.state.step, this.state.steps);
         const modal = this.state.showModal ? (<Modal close={ this.closeModal } title={ pageTitle }/>) : null
         const getCustomStyle = (step, node) => {
             if(step < tree.length && !node.children){
@@ -397,80 +431,82 @@ class Objectives extends PureComponent {
             }
         }
 
-        return (
-            <div className={ classes.Container }>
-                { modal }
-                <div className={ classes.Objectives }>
-                    <div className={ classes.Title }>
-                        <h2>{ pageTitle }</h2>
-                        <p className={ classes.Intructions }>{ pageInstructions }</p>
+        return (  
+            loading ? loading : (
+                <div className={ classes.Container }>
+                    { modal }
+                    <div className={ classes.Objectives }>
+                        <div className={ classes.Title }>
+                            <h2>{ pageTitle }</h2>
+                            <p className={ classes.Intructions }>{ pageInstructions }</p>
+                        </div>
+                        <div className={ classes.ObjectivesButtons }>
+                            <button 
+                                className={ classes.None }
+                                disabled
+                                onClick={() => {
+                                    const newTopLevel = newNode();
+                                    this.props.onTreeUpdate({[key]: this.props.tree.concat(newTopLevel)});
+                                }}
+                            >
+                                Add Top Level Objective
+                            </button>
+                            { goBackButton }
+                            { advanceButton }
+                            { submitButton }
+                            { infoButton }
+                        </div>
+                        <SortableTree
+                            canDrag={ canDrag(this.props.config) }
+                            canDrop={ canDrop }
+                            style={ {height: '80%'} }
+                            rowHeight={50}
+                            innerStyle={{paddingLeft: '30px'}}
+                            treeData={ tree }
+                            onChange={treeData => this.props.onTreeUpdate({[key]: treeData}, key)}
+                            generateNodeProps={({ node, path }) => {
+                                return ({
+                                    style: getCustomStyle(this.state.step, node),
+                                    buttons: [
+                                        <button
+                                            className={ classes.None }
+                                            onClick={() => {
+                                                const newChildNode = newNode();
+                                                this.props.onTreeUpdate({
+                                                    [key]: addNodeUnderParent({
+                                                        [key]: this.props.tree,
+                                                        parentKey: path[path.length - 1],
+                                                        expandParent: true,
+                                                        getNodeKey,
+                                                        newNode: newChildNode,
+                                                    })[key],
+                                                });
+                                            }}
+                                        >
+                                            Add Sub-Objective
+                                        </button>,
+                                        <button
+                                            className={ classes.None }
+                                            onClick={() => {
+                                                this.props.onTreeUpdate({
+                                                    [key]: removeNodeAtPath({
+                                                        [key]: this.props.tree,
+                                                        path,
+                                                        getNodeKey,
+                                                    }),
+                                                });
+                                            }}
+                                        >
+                                            Remove
+                                        </button>,
+                                        getInputs(node, path)
+                                    ],
+                                })}
+                            }
+                        />
                     </div>
-                    <div className={ classes.ObjectivesButtons }>
-                        <button 
-                            className={ classes.None }
-                            disabled
-                            onClick={() => {
-                                const newTopLevel = newNode();
-                                this.props.onTreeUpdate({[key]: this.props.tree.concat(newTopLevel)});
-                            }}
-                        >
-                            Add Top Level Objective
-                        </button>
-                        { goBackButton }
-                        { advanceButton }
-                        { submitButton }
-                        { infoButton }
-                    </div>
-                    <SortableTree
-                        canDrag={ canDrag(this.props.config) }
-                        canDrop={ canDrop }
-                        style={ {height: '80%'} }
-                        rowHeight={50}
-                        innerStyle={{paddingLeft: '30px'}}
-                        treeData={ tree }
-                        onChange={treeData => this.props.onTreeUpdate({[key]: treeData}, key)}
-                        generateNodeProps={({ node, path }) => {
-                            return ({
-                                style: getCustomStyle(this.state.step, node),
-                                buttons: [
-                                    <button
-                                        className={ classes.None }
-                                        onClick={() => {
-                                            const newChildNode = newNode();
-                                            this.props.onTreeUpdate({
-                                                [key]: addNodeUnderParent({
-                                                    [key]: this.props.tree,
-                                                    parentKey: path[path.length - 1],
-                                                    expandParent: true,
-                                                    getNodeKey,
-                                                    newNode: newChildNode,
-                                                })[key],
-                                            });
-                                        }}
-                                    >
-                                        Add Sub-Objective
-                                    </button>,
-                                    <button
-                                        className={ classes.None }
-                                        onClick={() => {
-                                            this.props.onTreeUpdate({
-                                                [key]: removeNodeAtPath({
-                                                    [key]: this.props.tree,
-                                                    path,
-                                                    getNodeKey,
-                                                }),
-                                            });
-                                        }}
-                                    >
-                                        Remove
-                                    </button>,
-                                    getInputs(node, path)
-                                ],
-                            })}
-                        }
-                    />
-                </div>
-            </div>
+                </div>    
+            )
         );
     }
 }

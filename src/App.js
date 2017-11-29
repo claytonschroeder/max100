@@ -17,6 +17,7 @@ class App extends Component {
         <Layout>
           <Switch>
             <Route path="/case" component={Project} />
+            <Route path="/editor" component={Project} />
             <Route path="/thank-you" component={Thanks} />
             <Route path="/export" component={Export} />
             <Route path="/" exact component={Home} />

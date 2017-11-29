@@ -1,23 +1,26 @@
 const uuidv1 = require('uuid/v1');
 
-export const newNode = () => {
+export const newNode = (key, level) => {
+    console.log(level)
     const newId = uuidv1();
+    let keyObj;
+    if(key === 'max100'){
+        keyObj = {score: ''}
+    }
+
+    if(key === 'smarter'){
+        keyObj = {min: '', max: ''}
+    }
+
+    if(key === 'swing'){
+        keyObj = {min: '', max: '', score: ''}
+    }
     return(
         {
             id: newId,
             title: '',
-            smarter: {
-                min: 0,
-                max: 0
-            },
-            swing: {
-                min: 0,
-                max: 0,
-                score: 0
-            },
-            max100: {
-                score: 0
-            }
+            children: level === 'top' ? [] : null,
+            [key]: keyObj
         }
     ) 
 }
