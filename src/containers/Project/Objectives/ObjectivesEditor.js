@@ -133,7 +133,7 @@ class Objectives extends PureComponent {
         };
         const canDrag = (page) => {
             if(this.state.step === this.state.steps){
-                return false
+                return true
             }
             if(page === 'max100' || page === 'swing-weighting'){
                 return this.state.step <= ((this.state.steps - 1) / 2)
@@ -144,20 +144,7 @@ class Objectives extends PureComponent {
 
         const getInputs = (node, path) => {
             let show = '';
-            if(this.props.config === 'swing'){
-                if((this.state.step < ((this.state.steps)/2) - 1) && node.children){
-                    show = classes.None
-                }
-                if(this.state.step > (this.state.steps/2) -1){
-                    if((this.state.step !== this.state.steps - 1) && node.children){
-                        show = classes.None
-                    }
-                    if(this.state.step === this.state.steps){
-                        show = ''
-                    }
-                }
-            }
-            if(this.props.config === 'max100'){
+            if(this.props.config === 'swing' || this.props.config === 'max100'){
                 if(this.state.step < ((this.state.steps)/2) ){
                     show = classes.None
                 }
@@ -198,22 +185,117 @@ class Objectives extends PureComponent {
                     return(
                         <div className={ show }>
                             <label className={ classes.Label }>Min:</label>
-                            <span>{ node.smarter.min }</span>
+                            <input
+                                disabled
+                                className={ '' }
+                                type='number'
+                                min={ 0 }
+                                max={ 100 }
+                                value={node.smarter.min ? node.smarter.min : ''}
+                                onChange={event => {
+                                    const min = event.target.value;
+                                    this.props.onTreeUpdate({
+                                        [key]: changeNodeAtPath({
+                                            treeData: this.props[key],
+                                            path,
+                                            getNodeKey,
+                                            newNode: { 
+                                                ...node,
+                                                smarter: {
+                                                    ...node.smarter,
+                                                    min
+                                                }
+                                            },
+                                        }),
+                                    });
+                                }}
+                            />
                             <label className={ classes.Label }>Max:</label>
-                            <span>{ node.smarter.max }</span>
+                            <input
+                                disabled
+                                className={ '' }
+                                type='number'
+                                min={ 0 }
+                                max={ 100 }
+                                value={node.smarter.max ? node.smarter.max : ''}
+                                onChange={event => {
+                                    const max = event.target.value;
+                                    this.props.onTreeUpdate({
+                                        [key]: changeNodeAtPath({
+                                            treeData: this.props[key],
+                                            path,
+                                            getNodeKey,
+                                            newNode: { 
+                                                ...node,
+                                                smarter: {
+                                                    ...node.smarter,
+                                                    max
+                                                }
+                                            },
+                                        }),
+                                    });
+                                }}
+                            />
                         </div>
                     )
                 case 'swing':
                     return(
                         <div className={ show }>
                             <label className={ classes.Label }>Min:</label>
-                            <span>{ node.swing.min }</span>
+                            <input
+                                disabled
+                                className={ '' }
+                                type='number'
+                                min={ 0 }
+                                max={ 100 }
+                                value={node.swing.min ? node.swing.min : ''}
+                                onChange={event => {
+                                    const min = event.target.value;
+                                    this.props.onTreeUpdate({
+                                        [key]: changeNodeAtPath({
+                                            treeData: this.props[key],
+                                            path,
+                                            getNodeKey,
+                                            newNode: { 
+                                                ...node,
+                                                swing: {
+                                                    ...node.swing,
+                                                    min
+                                                }
+                                            },
+                                        }),
+                                    });
+                                }}
+                            />
                             <label className={ classes.Label }>Max:</label>
-                            <span>{ node.swing.max }</span>
-                            <label className={ classes.Label } hidden={ this.state.step < (this.state.steps/2) }>Rating:</label>
+                            <input
+                                disabled
+                                className={ '' }
+                                type='number'
+                                min={ 0 }
+                                max={ 100 }
+                                value={node.swing.max ? node.swing.max : ''}
+                                onChange={event => {
+                                    const max = event.target.value;
+                                    this.props.onTreeUpdate({
+                                        [key]: changeNodeAtPath({
+                                            treeData: this.props[key],
+                                            path,
+                                            getNodeKey,
+                                            newNode: { 
+                                                ...node,
+                                                swing: {
+                                                    ...node.swing,
+                                                    max
+                                                }
+                                            },
+                                        }),
+                                    });
+                                }}
+                            />
+                            <label className={ classes.Label }>Rating:</label>
                             <input
                                 className={ node.swing.score === '' ? classes.HighlightRed : classes.HighlightGreen }
-                                hidden={ this.state.step < (this.state.steps/2) }
                                 type='number'
                                 min={ 0 }
                                 max={ 100 }
@@ -357,11 +439,11 @@ class Objectives extends PureComponent {
             className={ classes.Button } 
             onClick={() => this.showModal()}>Info</button>
         const advanceButton = <button
-            className={ validateAdvance(this.state.step, this.state.steps) ? classes.DisabledButton : classes.Button } 
+            className={ classes.Button } 
             onClick={() => changePage(this.props.config, 'advance')}
             disabled={ validateAdvance(this.state.step, this.state.steps)}>Advance</button>
         const goBackButton = <button
-            className={ this.state.step === 0 ? classes.DisabledButton : classes.Button } 
+            className={ classes.Button } 
             onClick={() => changePage(this.props.config, 'back')}
             disabled={this.state.step === 0}>Go Back</button>
         
