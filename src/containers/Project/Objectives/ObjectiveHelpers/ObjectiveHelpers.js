@@ -1,7 +1,6 @@
 const uuidv1 = require('uuid/v1');
 
 export const newNode = (key, level) => {
-    console.log(level)
     const newId = uuidv1();
     let keyObj;
     if(key === 'max100'){
@@ -20,6 +19,7 @@ export const newNode = (key, level) => {
             id: newId,
             title: '',
             children: level === 'top' ? [] : null,
+            pm: '',
             [key]: keyObj
         }
     ) 

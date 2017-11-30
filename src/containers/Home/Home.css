@@ -60,4 +60,7 @@
 .Input {
     width: 60%;
     margin: 5px;
+    height: 25px;
+    font-size: 15px;
+    text-align: center;
 }

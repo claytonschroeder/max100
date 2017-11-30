@@ -77,12 +77,30 @@ class ObjectivesEditor extends PureComponent {
                 case 'smarter':
                     return(
                         <div className={ '' }>
+                            <label className={ classes.Label }>Scale:</label>
+                            <input
+                                className={ '' }
+                                type='text'
+                                value={node.pm ? node.pm : ''}
+                                onChange={event => {
+                                    const pm = event.target.value;
+                                    this.props.onTreeUpdate({
+                                        [key]: changeNodeAtPath({
+                                            treeData: this.props[key],
+                                            path,
+                                            getNodeKey,
+                                            newNode: { 
+                                                ...node,
+                                                pm
+                                            },
+                                        }),
+                                    });
+                                }}
+                            />
                             <label className={ classes.Label }>Min:</label>
                             <input
                                 className={ '' }
-                                type='number'
-                                min={ 0 }
-                                max={ 100 }
+                                type='text'
                                 value={node.smarter.min ? node.smarter.min : ''}
                                 onChange={event => {
                                     const min = event.target.value;
@@ -105,9 +123,7 @@ class ObjectivesEditor extends PureComponent {
                             <label className={ classes.Label }>Max:</label>
                             <input
                                 className={ '' }
-                                type='number'
-                                min={ 0 }
-                                max={ 100 }
+                                type='text'
                                 value={node.smarter.max ? node.smarter.max : ''}
                                 onChange={event => {
                                     const max = event.target.value;
@@ -132,6 +148,26 @@ class ObjectivesEditor extends PureComponent {
                 case 'swing':
                     return(
                         <div className={ '' }>
+                            <label className={ classes.Label }>Scale:</label>
+                            <input
+                                className={ '' }
+                                type='text'
+                                value={node.pm ? node.pm : ''}
+                                onChange={event => {
+                                    const pm = event.target.value;
+                                    this.props.onTreeUpdate({
+                                        [key]: changeNodeAtPath({
+                                            treeData: this.props[key],
+                                            path,
+                                            getNodeKey,
+                                            newNode: { 
+                                                ...node,
+                                                pm
+                                            },
+                                        }),
+                                    });
+                                }}
+                            />
                             <label className={ classes.Label }>Min:</label>
                             <input
                                 className={ '' }

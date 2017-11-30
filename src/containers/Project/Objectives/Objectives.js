@@ -179,6 +179,7 @@ class Objectives extends PureComponent {
         }
 
         const getInputs = (node, path) => {
+            console.log(node)
             let show = '';
             if(this.props.config === 'swing'){
                 if((this.state.step < ((this.state.steps)/2) - 1) && node.children){
@@ -202,6 +203,13 @@ class Objectives extends PureComponent {
                 }
             }
 
+            const scale = node.children ? null : (
+                <div style={ {display: 'inline-block'} }>
+                    <label className={ classes.Label }>Scale:</label>
+                    <span>{ node.pm ? node.pm : ''}</span>
+                </div>
+            )
+            
             switch(this.props.config){
                 case 'max100':
                     return(
@@ -233,6 +241,7 @@ class Objectives extends PureComponent {
                 case 'smarter':
                     return(
                         <div className={ show }>
+                            { scale }
                             <label className={ classes.Label }>Min:</label>
                             <span>{ node.smarter.min }</span>
                             <label className={ classes.Label }>Max:</label>
@@ -242,6 +251,7 @@ class Objectives extends PureComponent {
                 case 'swing':
                     return(
                         <div className={ show }>
+                            { scale }
                             <label className={ classes.Label }>Min:</label>
                             <span>{ node.swing.min }</span>
                             <label className={ classes.Label }>Max:</label>
@@ -392,17 +402,17 @@ class Objectives extends PureComponent {
         }
 
         const infoButton = <button
-            className={ classes.Button } 
+            className={ classes.InfoButton } 
             onClick={() => this.showModal()}>Info</button>
         const toggleExpandButton = <button
-                className={ classes.Button } 
+                className={ classes.ExpandButton } 
                 onClick={() => this.setState({toggleAll: !this.state.toggleAll})}>{ this.state.toggleAll ? "Collapse All" : "Expand All" }</button>
         const advanceButton = <button
-            className={ validateAdvance(this.state.step, this.state.steps) ? classes.DisabledButton : classes.Button } 
+            className={ validateAdvance(this.state.step, this.state.steps) ? classes.DisabledButton : classes.AdvanceButton } 
             onClick={() => changePage(this.props.config, 'advance')}
             disabled={ validateAdvance(this.state.step, this.state.steps)}>Advance</button>
         const goBackButton = <button
-            className={ this.state.step === 0 ? classes.DisabledButton : classes.Button } 
+            className={ this.state.step === 0 ? classes.DisabledButton : classes.BackButton } 
             onClick={() => changePage(this.props.config, 'back')}
             disabled={this.state.step === 0}>Go Back</button>
         
