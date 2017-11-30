@@ -15,6 +15,7 @@ import { newNode } from './ObjectiveHelpers/ObjectiveHelpers';
 class Objectives extends PureComponent {
     state = {
         validationArray: [],
+        toggleAll: false,
         showModal: true,
         loading: true,
         error: false,
@@ -82,10 +83,10 @@ class Objectives extends PureComponent {
 
     render () {
         let loading = null;
+        const tree = [...this.props[this.props.config]];
         if(this.state.loading){
             loading = (<p>Loading...</p>)
         }
-        const tree = [...this.props[this.props.config]]
         if(this.props.config !== 'smarter' && (this.state.step > ((this.state.steps -1)/2)) ){
             tree.map((node, index) => {
                 if(index === 0){
@@ -117,6 +118,16 @@ class Objectives extends PureComponent {
                 }
             })
         }
+        if(this.state.step > this.state - 1){
+            const step = this.state.step - (this.state.steps/2);
+            tree.map((node, index) => {
+                if(step === index){
+                    return node.expanded = true
+                } else {
+                    return node.expanded = false
+                }
+            })
+        }
         if(this.state.step === tree.length){
             tree.map((node, index) => {
                 return node.expanded = false
@@ -127,6 +138,13 @@ class Objectives extends PureComponent {
                 return node.expanded = true
             })
         }
+        if(this.state.toggleAll){
+            tree.map((node, index) => {
+                return node.expanded = true
+            })
+        }
+
+
         const key = this.props.config;
         const getNodeKey = ({ treeIndex }) => treeIndex;
         const canDrop = ({ node, nextParent, prevPath, nextPath }) => {
@@ -261,10 +279,10 @@ class Objectives extends PureComponent {
         }
         const changePage = (currentPage, direction) => {
             if(direction === 'advance' && (this.state.step < this.state.steps)){
-                this.setState({step: this.state.step + 1})
+                this.setState({step: this.state.step + 1, toggleAll: false})
             }
             if(direction === 'back' && (this.state.step >= 1)){
-                this.setState({step: this.state.step - 1})
+                this.setState({step: this.state.step - 1, toggleAll: false})
             }
         }
         const validateTree = (tree, key) => {
@@ -376,6 +394,9 @@ class Objectives extends PureComponent {
         const infoButton = <button
             className={ classes.Button } 
             onClick={() => this.showModal()}>Info</button>
+        const toggleExpandButton = <button
+                className={ classes.Button } 
+                onClick={() => this.setState({toggleAll: !this.state.toggleAll})}>{ this.state.toggleAll ? "Collapse All" : "Expand All" }</button>
         const advanceButton = <button
             className={ validateAdvance(this.state.step, this.state.steps) ? classes.DisabledButton : classes.Button } 
             onClick={() => changePage(this.props.config, 'advance')}
@@ -402,6 +423,9 @@ class Objectives extends PureComponent {
             }
             if(step === tree.length && node.children) {
                 return {boxShadow: '0 0 0 3px green'}
+            }
+            if(step === tree.length && !node.children) {
+                return {color: '#ddd', pointerEvents: 'none'}
             }
             if(step > tree.length && !node.children){
                 return {boxShadow: '0 0 0 3px green'}
@@ -441,6 +465,7 @@ class Objectives extends PureComponent {
                             { advanceButton }
                             { submitButton }
                             { infoButton }
+                            { toggleExpandButton }
                         </div>
                         <SortableTree
                             canDrag={ canDrag(this.props.config) }
