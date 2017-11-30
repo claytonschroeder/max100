@@ -242,6 +242,8 @@ class Objectives extends PureComponent {
                     return(
                         <div className={ show }>
                             { scale }
+                            <label className={ classes.Label }>Direction:</label>
+                            <span>{ node.direction && node.direction === 'higher' ? 'H' : 'L' }</span>
                             <label className={ classes.Label }>Min:</label>
                             <span>{ node.smarter.min }</span>
                             <label className={ classes.Label }>Max:</label>
@@ -252,6 +254,8 @@ class Objectives extends PureComponent {
                     return(
                         <div className={ show }>
                             { scale }
+                            <label className={ classes.Label }>Direction:</label>
+                            <span>{ node.direction && node.direction === 'higher' ? 'H' : 'L' }</span>
                             <label className={ classes.Label }>Min:</label>
                             <span>{ node.swing.min }</span>
                             <label className={ classes.Label }>Max:</label>

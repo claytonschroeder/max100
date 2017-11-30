@@ -20,6 +20,7 @@ export const newNode = (key, level) => {
             title: '',
             children: level === 'top' ? [] : null,
             pm: '',
+            direction: '',
             [key]: keyObj
         }
     ) 
