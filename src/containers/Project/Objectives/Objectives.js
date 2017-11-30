@@ -191,6 +191,9 @@ class Objectives extends PureComponent {
             return true;
         };
         const canDrag = (page) => {
+            if(this.state.toggleAll){
+                return false
+            }
             if(this.state.step === this.state.steps){
                 return false
             }
@@ -477,6 +480,8 @@ class Objectives extends PureComponent {
             }
         }
 
+        const toggleWarning = this.state.toggleAll ? (<p style={ {color: 'red'} }>Click "Collapse All" before you can drag and drop objectives</p>) : (<p>To view the sub-objectives, click the "Expand All" button</p>)
+
         return (  
             loading ? loading : (
                 <div className={ classes.Container }>
@@ -484,7 +489,11 @@ class Objectives extends PureComponent {
                     <div className={ classes.Objectives }>
                         <div className={ classes.Title }>
                             <h2>{ pageTitle }</h2>
-                            <p className={ classes.Intructions }>{ pageInstructions }</p>
+                            <div className={ classes.Intructions }>
+                                { pageInstructions }
+                                { (this.props.config !== 'smarter' && this.state.step === ((this.state.steps/2) - 1)) || (this.props.config !== 'smarter' && this.state.step === (this.state.steps -1)) ? toggleWarning : null }
+                                { this.props.config === 'smarter' && this.state.step === (this.state.steps -1) ? toggleWarning : null}
+                            </div>
                         </div>
                         <div className={ classes.ObjectivesButtons }>
                             <button 
@@ -501,7 +510,8 @@ class Objectives extends PureComponent {
                             { advanceButton }
                             { submitButton }
                             { infoButton }
-                            { toggleExpandButton }
+                            { this.props.config !== 'smarter' && this.state.step === ((this.state.steps/2) - 1) || this.state.step === (this.state.steps -1) ? toggleExpandButton : null }
+                            { this.props.config === 'smarter' && this.state.step ===(this.state.steps -1) ? toggleExpandButton : null}
                         </div>
                         <SortableTree
                             canDrag={ canDrag(this.props.config) }
