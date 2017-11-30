@@ -33,17 +33,19 @@ class Objectives extends PureComponent {
     }
 
     componentDidMount(){
-        axios.get(`/${this.props.config}structure.json`)
-            .then(response => {
-                this.props.onTreeUpdate({[this.props.config]: response.data.data})
-                this.setState({
-                    loading: false,
-                    steps: (this.props.config === 'max100' || this.props.config === 'swing') ? ((response.data.data.length * 2) + 2) : (response.data.data.length + 1)
+        if(this.props.name){
+            axios.get(`/${this.props.config}structure.json`)
+                .then(response => {
+                    this.props.onTreeUpdate({[this.props.config]: response.data.data})
+                    this.setState({
+                        loading: false,
+                        steps: (this.props.config === 'max100' || this.props.config === 'swing') ? ((response.data.data.length * 2) + 2) : (response.data.data.length + 1)
+                    })
                 })
-            })
-            .catch(err => {
-                alert(err)
-            })
+                .catch(err => {
+                    alert(err)
+                })
+        }
     }
 
     submit = (tree, key) => {
@@ -51,12 +53,33 @@ class Objectives extends PureComponent {
             treeData: tree,
             getNodeKey: ({ node }) => node.id, // This ensures your "id" properties are exported in the path
             ignoreCollapsed: false, // Makes sure you traverse every node in the tree, not just the visible ones
-        }).map(({ node, path }) => ({
-            title: node.title,
-            [key]: node[key]
-        }));
+        }).map(({ node, path }) => {
+            let parent;
+            if(path.length === 2){
+                let parentId = path[0];
+                parent = tree.filter(objective => { 
+                    if(objective.id === parentId) {
+                        return objective
+                    }
+                })
+            } else {
+                parent = null
+            }
+            let parentTitle;
+            if(parent){
+                parentTitle = parent[0].title
+            } else {
+                parentTitle = 'No parent'
+            }
+            return ({
+                name: this.props.name,
+                level: node.children ? 'top' : 'sub',
+                title: node.title,
+                [key]: node[key],
+                parent: parentTitle
+            })
+        });
         let data = {
-            name: this.props.name,
             data: flatData
         }
         axios.post(`/${key}.json`, data)
@@ -179,7 +202,6 @@ class Objectives extends PureComponent {
         }
 
         const getInputs = (node, path) => {
-            console.log(node)
             let show = '';
             if(this.props.config === 'swing'){
                 if((this.state.step < ((this.state.steps)/2) - 1) && node.children){
