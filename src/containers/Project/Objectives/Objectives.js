@@ -232,14 +232,14 @@ class Objectives extends PureComponent {
                 </div>
             )
 
-            const input = this.state.step === this.state.steps ? (<span>{ node.max100.score }</span>) : (
+            const input = this.state.step === this.state.steps ? (<span>{ node[this.props.config].score }</span>) : (
                 <input
                     disabled = { this.state.step === this.state.steps }
-                    className={ node.max100.score === '' ? classes.HighlightRed : classes.HighlightGreen }
+                    className={ node[this.props.config].score === '' ? classes.HighlightRed : classes.HighlightGreen }
                     type='number'
                     min={ 0 }
                     max={ 100 }
-                    value={ node.max100.score ? node.max100.score : ''}
+                    value={ node[this.props.config].score ? node[this.props.config].score : ''}
                     onChange={event => {
                         const score = event.target.value;
                         this.props.onTreeUpdate({
@@ -249,7 +249,7 @@ class Objectives extends PureComponent {
                                 getNodeKey,
                                 newNode: { 
                                     ...node,
-                                    max100: {score} 
+                                    [this.props.config]: {score} 
                                 },
                             }),
                         }, key);

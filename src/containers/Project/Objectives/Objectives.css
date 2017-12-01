@@ -3,7 +3,7 @@
 }
 
 .Objectives {
-    height: 1000px;
+    height: 1100px;
     padding: 10px;
     box-shadow: 1px 1px 1px 1px #ddd;
     width: 80%;
@@ -119,7 +119,7 @@
 }
 
 .Intructions {
-    width: 50%;
+    width: 80%;
     margin: auto;
     text-align: initial;
 }
