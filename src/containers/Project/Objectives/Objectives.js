@@ -2,15 +2,11 @@ import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import SortableTree, { addNodeUnderParent, removeNodeAtPath, changeNodeAtPath, getFlatDataFromTree } from 'react-sortable-tree';
-
 import Modal from '../../../components/UI/Modal/Modal';
-
 import axios from '../../../axios';
 import * as actionCreators from '../../../store/actions/index';
-
 import classes from './Objectives.css';
 import { newNode } from './ObjectiveHelpers/ObjectiveHelpers';
-
 
 class Objectives extends PureComponent {
     state = {
