@@ -517,7 +517,7 @@ class Objectives extends PureComponent {
             if(step === tree.length && !node.children) {
                 return {color: '#ddd', pointerEvents: 'none'}
             }
-            if(step > tree.length && !node.children){
+            if((step > tree.length) && (step !== (this.state.steps - 1)) && !node.children){
                 return {boxShadow: '0 0 0 3px rgb(157, 208, 228)'}
             }
             if(step > tree.length && step < (this.state.steps -1) && node.children){
@@ -534,7 +534,7 @@ class Objectives extends PureComponent {
             }
         }
 
-        const toggleWarning = this.state.toggleAll ? (<p style={ {color: 'red'} }>Click "Collapse All" before you can drag and drop the criterion</p>) : (<p>For a reminder of which sub-criteria belong to each criterion, click the ‘Expand All’ button below.</p>)
+        const toggleWarning = this.state.toggleAll ? null : (<p>For a reminder of which sub-criteria belong to each criterion, click the ‘Expand All’ button below.</p>)
 
         return (  
             loading ? loading : (
