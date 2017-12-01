@@ -225,7 +225,7 @@ class Objectives extends PureComponent {
             const scale = node.children ? null : (
                 <div style={ {display: 'inline-block'} }>
                     <label className={ classes.Label }>Scale:</label>
-                    <span>{ node.pm ? node.pm : ''}</span>
+                    <span className={ classes.Span }>{ node.pm ? node.pm : ''}</span>
                 </div>
             )
 
@@ -257,11 +257,11 @@ class Objectives extends PureComponent {
             const performanceFields = !node.children ? (
                 <Aux>
                     <label className={ classes.Label }>Direction:</label>
-                    <span>{ node.direction && node.direction === 'higher' ? 'H' : 'L' }</span>
+                    <span className={ classes.Span }>{ node.direction && node.direction === 'higher' ? 'H' : 'L' }</span>
                     <label className={ classes.Label }>Worst:</label>
-                    <span style={{color: 'red'}}>{ node[this.props.config].min }</span>
+                    <span className={ classes.Span } style={{color: 'red'}}>{ node[this.props.config].min }</span>
                     <label className={ classes.Label }>Best:</label>
-                    <span style={{color: 'green'}}>{ node[this.props.config].max }</span>
+                    <span className={ classes.Span } style={{color: 'green'}}>{ node[this.props.config].max }</span>
                 </Aux>
             ) : null
             
@@ -643,7 +643,7 @@ class Objectives extends PureComponent {
                             { advanceButton }
                             { submitButton }
                             { infoButton }
-                            { this.props.config !== 'smarter' && this.state.step === ((this.state.steps/2) - 1) || (this.props.config !== 'smarter' && this.state.step === (this.state.steps -1)) ? toggleExpandButton : null }
+                            { (this.props.config !== 'smarter' && this.state.step === ((this.state.steps/2) - 1)) || ((this.props.config !== 'smarter' && this.state.step === (this.state.steps -1))) ? toggleExpandButton : null }
                             { this.props.config === 'smarter' && this.state.step === (this.state.steps -1) ? toggleExpandButton : null}
                         </div>
                         <SortableTree
