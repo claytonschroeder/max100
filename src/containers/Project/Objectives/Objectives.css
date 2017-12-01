@@ -46,7 +46,8 @@
 
 .Label {
     font-weight: bold;
-    margin: 6px;
+    margin-left: 20px;
+    margin-right: 5px;
 }
 
 .BackButton {

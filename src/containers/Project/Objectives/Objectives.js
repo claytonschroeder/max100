@@ -346,7 +346,6 @@ class Objectives extends PureComponent {
             let invalid
             let validationArray = [];
             allData.map(node => {
-                console.log(typeof(node[key].score))
                 if(!node[key].score){
                     validationArray.push(node.title);
                 }
