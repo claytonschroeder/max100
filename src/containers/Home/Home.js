@@ -25,7 +25,7 @@ class Home extends Component {
             <div className={ classes.Home }>
                 <div className={ classes.Inner }>
                     <h2 className={ classes.CenteredTitle }>Welcome</h2>
-                    <p>Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                    <p>This exercise is designed to get you thinking about how important different evaluation criteria are to you within the context of chemical alternatives analysis, and to help you assign relative weights to these criteria. These weights can then be used to assess and compare the overall performance of different chemical alternatives. The following pages will walk you through several steps to help you define your weights.</p>
                     <p>Please enter your name and select the method you have been asked to use for the exercise.</p>
                     <div className={ classes.Centered }>
                         <input className={ classes.Input } type="text" value={ this.state.name } placeholder="Enter Your Name" onChange={ (event) => this.setState({name: event.target.value}) }/>

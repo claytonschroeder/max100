@@ -2,7 +2,7 @@ import React from 'react';
 
 import classes from './Modal.css';
 
-import dragSubs from '../../../assets/images/drag_subs.jpg'
+import dragSubs from '../../../assets/images/Alts_Max100.jpg'
 
 const modal = (props) => {
     const getBodyText = (title) => {
@@ -11,21 +11,27 @@ const modal = (props) => {
                 return(
                     <div>
                         <p>Some instructions about the smarter technique</p>
-                        <img src={dragSubs} alt="Drag and Drop Example"/>
+                        <img style={{width: '80%'}} src={dragSubs} alt="Drag and Drop Example"/>
                     </div>
                 )
             case 'Swing Weighting':
                 return(
                     <div>
                         <p>Some instructions about the swing weighting technique</p>
-                        <img src={dragSubs} alt="Drag and Drop Example"/>
+                        <img style={{width: '80%'}} src={dragSubs} alt="Drag and Drop Example"/>
                     </div>
                 )
             case 'Max 100':
                 return(
-                    <div>
-                        <p>In the 'Max100' weighting approach, criteria weights are defined through two steps - first by RANKING the criteria and sub-criteria by importance, followed by RATING their relative importance on a 0-100 scale.The following questions will ask you to review a number of evaluation criteria for a hypothetical alternatives analysis, and provide your take on the relative importance of each criterion.</p>
-                        <img src={dragSubs} alt="Drag and Drop Example"/>
+                    <div style={{ display: 'flex' }}>
+                        <div>
+                        <p>In the 'Max100' weighting approach, criteria weights are defined through two steps - first by RANKING the criteria and sub-criteria by importance, followed by RATING their relative importance on a 0-100 scale. These rankings and ratings will be used to define your weights.</p>
+                        <p>Before starting, please review the criteria hierarchy in the model figure below. You will be asked to rank and rate the sub-criteria and the main criteria separately. Definitions for each criterion can be found in Table 1 in the accompanying ‘Case Study Narrative’ document.</p>
+                        <p>You can come back to this figure any time by pressing the ‘Info’ button on each page.</p>
+                        </div>
+                        <div>
+                            <img style={{width: '80%'}} src={dragSubs} alt="Drag and Drop Example"/>
+                        </div>
                     </div>
                 )
             default: return null

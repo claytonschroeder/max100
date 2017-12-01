@@ -166,8 +166,6 @@ class Objectives extends PureComponent {
                 return node.expanded = true
             })
         }
-
-
         const key = this.props.config;
         const getNodeKey = ({ treeIndex }) => treeIndex;
         const canDrop = ({ node, nextParent, prevPath, nextPath }) => {
@@ -203,7 +201,6 @@ class Objectives extends PureComponent {
                 return true
             }
         }
-
         const getInputs = (node, path) => {
             let show = '';
             if(this.props.config === 'swing'){
@@ -234,33 +231,38 @@ class Objectives extends PureComponent {
                     <span>{ node.pm ? node.pm : ''}</span>
                 </div>
             )
+
+            const input = this.state.step === this.state.steps ? (<span>{ node.max100.score }</span>) : (
+                <input
+                    disabled = { this.state.step === this.state.steps }
+                    className={ node.max100.score === '' ? classes.HighlightRed : classes.HighlightGreen }
+                    type='number'
+                    min={ 0 }
+                    max={ 100 }
+                    value={ node.max100.score ? node.max100.score : ''}
+                    onChange={event => {
+                        const score = event.target.value;
+                        this.props.onTreeUpdate({
+                            [key]: changeNodeAtPath({
+                                treeData: this.props[key],
+                                path,
+                                getNodeKey,
+                                newNode: { 
+                                    ...node,
+                                    max100: {score} 
+                                },
+                            }),
+                        }, key);
+                    }}
+                />
+            )
             
             switch(this.props.config){
                 case 'max100':
                     return(
                         <div className={ show }>
                             <label className={ classes.Label }>Rating:</label>
-                            <input
-                                className={ node.max100.score === '' ? classes.HighlightRed : classes.HighlightGreen }
-                                type='number'
-                                min={ 0 }
-                                max={ 100 }
-                                value={ node.max100.score ? node.max100.score : ''}
-                                onChange={event => {
-                                    const score = event.target.value;
-                                    this.props.onTreeUpdate({
-                                        [key]: changeNodeAtPath({
-                                            treeData: this.props[key],
-                                            path,
-                                            getNodeKey,
-                                            newNode: { 
-                                                ...node,
-                                                max100: {score} 
-                                            },
-                                        }),
-                                    }, key);
-                                }}
-                            />
+                            { input }
                         </div>
                     )
                 case 'smarter':
@@ -356,29 +358,80 @@ class Objectives extends PureComponent {
         const getPageInstructions = (step, steps) => {
             if(this.props.config === 'smarter'){
                 if(step < ((steps-1))){
-                    return 'Please drag and drop the sub-objectives in order from most important to least important.'
+                    return (
+                        <div>
+                            <h4>Sub-Criteria Ranking</h4>
+                            <p><strong>First, please rank the following sub-criteria under each main criterion in order from most important to least important.</strong></p>
+                            <p>Note that you cannot indicate ties here, but later you will have an opportunity to identify cases that are "too close to call".</p>
+                            <p>Please drag and drop the sub-criteria in order from most important to least important.</p>
+                        </div>
+                    )
                 }
                 if(step === (steps -1)){
-                    return 'Please drag and drop the objectives in order for most important to least important'
+                    return (
+                        <div>
+                            <h4>Main-Criteria Ranking</h4>
+                            <p><strong>Next, please drag and drop the following main criteria to rank them in order from most important to least important.</strong></p>
+                            <p>When ranking main criteria, keep in mind that you are ranking the importance of each criterion group, including their sub-criteria, relative to one another.</p>
+                        </div>
+                    )
                 }
                 if(step === steps){
-                    return 'Please review your ranks and rating for each objective and sub-objective.'
+                    return (
+                        <div>
+                            <h4>Review</h4>
+                            <p>Please review your ranks and rating for each criterion and sub-criterion. You may edit the ranking or ratings if you wish by clicking ‘Go Back’. When you are satisfied, please click ‘Submit’ to finish.</p>
+                        </div>
+                    )
                 }
             } else {
                 if(step < ((steps/2)-1)){
-                    return 'Please drag and drop the sub-objectives in order from most important to least important.'
+                    return (
+                        <div>
+                            <h4>Sub-Criteria Ranking</h4>
+                            <p><strong>First, please rank the following sub-criteria under each main criterion in order from most important to least important.</strong></p>
+                            <p>Note that you cannot indicate ties here, but later you will have an opportunity to identify cases that are "too close to call".</p>
+                            <p>Please drag and drop the sub-criteria in order from most important to least important.</p>
+                        </div>
+                    )
                 }
                 if(step === ((steps/2)-1)){
-                    return 'Please drag and drop the objectives in order from most important to least important.'
+                    return (
+                        <div>
+                            <h4>Main-Criteria Ranking</h4>
+                            <p><strong>Next, please drag and drop the following main criteria to rank them in order from most important to least important.</strong></p>
+                            <p>When ranking main criteria, keep in mind that you are ranking the importance of each criterion group, including their sub-criteria, relative to one another.</p>
+                        </div>
+                    )
                 }
                 if(step > ((steps/2)-1) && (step !== steps)){
-                    return 'Please provide a rating to the sub-objectives on a scale of 0-100. Your top ranked sub-objective should recieve a score of 100, while the rest should recieve score below 100.'
+                    return (
+                        <div>
+                            <h4>Sub-Criteria Rating</h4>
+                            <p><strong>Now, with these criteria and sub-criteria ranked from most to least important, we'll ask you to assign a rating to each.</strong></p>
+                            <p>Please assign 100 points to the top ranked sub-criterion, then assign between 0 and 100 points for each of the remaining sub-criteria to indicate how important they are relative to the top ranked one. For example, if you assign 100 points to the top ranked sub-criterion and 50 points to second, you are saying the second criterion is about half as important as the first.</p>
+                            <p>You may assign the same number of points to more than one criterion if you consider them to be of the same importance.</p>
+                            <p>When you are done rating the criteria for a group, click ‘Advance’ to continue. You can click ‘go back’ at any time if you wish to re-rank these criteria.</p>
+                        </div>
+                    )
                 }
                 if(step === ((steps/2)-1)){
-                    return 'Please provide a rating to the objectives on a scale of 0-100. Your top ranked sub-objective should recieve a score of 100, while the rest should recieve score below 100.'
+                    return (
+                        <div>
+                            <h4>Main Criteria Rating</h4>
+                            <p>Please assign 100 points to the top ranked criterion, then assign between 0 and 100 points for each of the remaining criteria to indicate how important they are relative to the top ranked one.</p>
+                            <p>For example, if you assign 100 points to the top ranked criterion and 50 points to second, you are saying the second criterion is about half as important as the first.</p>
+                            <p>Once again, keep in mind that you are rating the importance of each criterion group, including their sub-criteria, relative to one another.</p>
+                        </div>
+                    )
                 }
                 if(step === steps){
-                    return 'Please review your ranks and rating for each objective and sub-objective. All fields must be filled in to submit.'
+                    return (
+                        <div>
+                            <h4>Review</h4>
+                            <p>Please review your ranks and rating for each criterion and sub-criterion. You may edit the ranking or ratings if you wish by clicking ‘Go Back’. When you are satisfied, please click ‘Submit’ to finish.</p>
+                        </div>
+                    )
                 }
             }
         }
@@ -390,7 +443,6 @@ class Objectives extends PureComponent {
                 default: return null
             }
         }
-
         const validateAdvance = (step, steps) => {
             if(step === steps){
                 return true
@@ -429,7 +481,6 @@ class Objectives extends PureComponent {
                 return false
             }
         }
-
         const infoButton = <button
             className={ classes.InfoButton } 
             onClick={() => this.showModal()}>Info</button>
@@ -455,32 +506,35 @@ class Objectives extends PureComponent {
         const modal = this.state.showModal ? (<Modal close={ this.closeModal } title={ pageTitle }/>) : null
         const getCustomStyle = (step, node) => {
             if(step < tree.length && !node.children){
-                return {boxShadow: '0 0 0 3px green'}
+                return {boxShadow: '0 0 0 3px rgb(157, 208, 228)'}
             }
             if(step < tree.length && node.children) {
                 return {color: '#ddd', pointerEvents: 'none'}
             }
             if(step === tree.length && node.children) {
-                return {boxShadow: '0 0 0 3px green'}
+                return {boxShadow: '0 0 0 3px rgb(12, 138, 186)'}
             }
             if(step === tree.length && !node.children) {
                 return {color: '#ddd', pointerEvents: 'none'}
             }
             if(step > tree.length && !node.children){
-                return {boxShadow: '0 0 0 3px green'}
+                return {boxShadow: '0 0 0 3px rgb(157, 208, 228)'}
             }
             if(step > tree.length && step < (this.state.steps -1) && node.children){
                 return {color: '#ddd', pointerEvents: 'none'}
             }
             if(step === (this.state.steps - 1) && node.children){
-                return {boxShadow: '0 0 0 3px green'}
+                return {boxShadow: '0 0 0 3px rgb(12, 138, 186)'}
+            }
+            if(step === (this.state.steps - 1) && !node.children){
+                return {color: '#ddd', pointerEvents: 'none'}
             }
             if(step === this.state.steps){
-                return {boxShadow: '0 0 0 3px green'}
+                return {boxShadow: '0 0 0 3px rgb(12, 138, 186)'}
             }
         }
 
-        const toggleWarning = this.state.toggleAll ? (<p style={ {color: 'red'} }>Click "Collapse All" before you can drag and drop objectives</p>) : (<p>To view the sub-objectives, click the "Expand All" button</p>)
+        const toggleWarning = this.state.toggleAll ? (<p style={ {color: 'red'} }>Click "Collapse All" before you can drag and drop the criterion</p>) : (<p>For a reminder of which sub-criteria belong to each criterion, click the ‘Expand All’ button below.</p>)
 
         return (  
             loading ? loading : (
