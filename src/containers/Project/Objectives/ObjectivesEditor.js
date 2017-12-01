@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import SortableTree, { addNodeUnderParent, removeNodeAtPath, changeNodeAtPath, getFlatDataFromTree } from 'react-sortable-tree';
+import SortableTree, { addNodeUnderParent, removeNodeAtPath, changeNodeAtPath } from 'react-sortable-tree';
 
 import axios from '../../../axios';
 import * as actionCreators from '../../../store/actions/index';

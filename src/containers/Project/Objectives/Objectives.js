@@ -357,31 +357,92 @@ class Objectives extends PureComponent {
                 if(step < ((steps-1))){
                     return (
                         <div>
-                            <h3>Sub-Criteria Ranking</h3>
+                            <h3>RANKING: Sub-Criteria</h3>
                             <p><strong>First, please rank the following sub-criteria under each main criterion in order from most important to least important.</strong></p>
+                            <p>Imagine you live in a world in which the performance for all of the sub-criteria in the hierarchy below take on their WORST value. Now suppose that you are able to change (swing) one (and only one) sub-criterion from its worst to its BEST value. Which would you choose? Consider both the inherent importance of the sub-criterion and the magnitude of change from WORST to BEST. Drag and drop this sub-criterion to the top of the list.</p>
+                            <p>Now, drag and drop the next most important sub-criterion to change from its WORST to BEST into the second position in the list. Continue this until all sub-criteria are ranked in order of importance.</p>
+                            <p>Click ‘Advance’ to repeat this process for each group of sub-criteria.</p>
                             <p>Note that you cannot indicate ties here, but later you will have an opportunity to identify cases that are "too close to call".</p>
-                            <p>Please drag and drop the sub-criteria in order from most important to least important.</p>
                         </div>
                     )
                 }
                 if(step === (steps -1)){
                     return (
                         <div>
-                            <h3>Main-Criteria Ranking</h3>
-                            <p><strong>Next, please drag and drop the following main criteria to rank them in order from most important to least important.</strong></p>
-                            <p>When ranking main criteria, keep in mind that you are ranking the importance of each criterion group, including their sub-criteria, relative to one another.</p>
+                            <h3>RANKING: Criteria</h3>
+                            <p><strong>Now, repeat the same process for the main criteria in the hierarchy below.</strong></p>
+                            <p>Imagine you live in a world in which the performance for all of the <strong>sub-criteria grouped under the main criteria</strong> in the hierarchy below take on their WORST value. Now suppose that you are able to change (swing) one (and only one) group of sub-criteria from its worst to its BEST value. Which would you choose?</p>
+                            <p>For example – for the main criterion ‘Technical Performance’, consider how important it is to swing both sub-criteria ‘Longevity’ and ‘Efficacy’ from their WORST to BEST together as a group. Consider both the inherent importance of the criteria and the magnitude of change from WORST to BEST. Drag and drop this main criterion group to the top of the list.</p>
+                            <p>Now, drag and drop the next most important criterion to change from its WORST to BEST into the second position in the list. Continue this until all criteria are ranked in order of importance.</p>
+                            <p>Click ‘Advance’ when you are finished.</p>
                         </div>
                     )
                 }
                 if(step === steps){
                     return (
                         <div>
-                            <h3>Review</h3>
-                            <p>Please review your ranks and rating for each criterion and sub-criterion. You may edit the ranking or ratings if you wish by clicking ‘Go Back’. When you are satisfied, please click ‘Submit’ to finish.</p>
+                            <h3>Review:</h3>
+                            <p>Please review your ranks and rating for each criterion and sub-criterion. You may edit the ranking or ratings if you wish by clicking ‘Go Back’.  When you are satisfied, please click ‘Submit’ to finish.</p>
                         </div>
                     )
                 }
-            } else {
+            }
+            if(this.props.config === 'swing'){
+                if(step < ((steps/2)-1)){
+                    return (
+                        <div>
+                            <h3>RANKING: Sub-Criteria</h3>
+                            <p><strong>First, please rank the following sub-criteria under each main criterion in order from most important to least important.</strong></p>
+                            <p>Imagine you live in a world in which the performance for all of the sub-criteria in the hierarchy below take on their WORST value. Now suppose that you are able to change (swing) one (and only one) sub-criterion from its worst to its BEST value. Which would you choose? Consider both the inherent importance of the sub-criterion and the magnitude of change from WORST to BEST. Drag and drop this sub-criterion to the top of the list.</p>
+                            <p>Now, drag and drop the next most important sub-criterion to change from its WORST to BEST into the second position in the list. Continue this until all sub-criteria are ranked in order of importance.</p>
+                            <p>Click ‘Advance’ to repeat this process for each group of sub-criteria.</p>
+                            <p>Note that you cannot indicate ties here, but later you will have an opportunity to identify cases that are "too close to call".</p>
+                        </div>
+                    )
+                }
+                if(step === ((steps/2)-1)){
+                    return (
+                        <div>
+                            <h3>RANKING: Criteria</h3>
+                            <p><strong>Now, repeat the same process for the main criteria in the hierarchy below.</strong></p>
+                            <p>Imagine you live in a world in which the performance for all of the <strong>sub-criteria grouped under the main criteria</strong> in the hierarchy below take on their WORST value. Now suppose that you are able to change (swing) one (and only one) group of sub-criteria from its worst to its BEST value. Which would you choose?</p>
+                            <p>For example – for the main criterion ‘Technical Performance’, consider how important it is to swing both sub-criteria ‘Longevity’ and ‘Efficacy’ from their WORST to BEST together as a group. Consider both the inherent importance of the criteria and the magnitude of change from WORST to BEST. Drag and drop this main criterion group to the top of the list.</p>
+                            <p>Now, drag and drop the next most important criterion to change from its WORST to BEST into the second position in the list. Continue this until all criteria are ranked in order of importance.</p>
+                            <p>Click ‘Advance’ when you are finished.</p>
+                        </div>
+                    )
+                }
+                if(step === (steps-1)){
+                    return (
+                        <div>
+                            <h3>RATING: Criteria</h3>
+                            <p>Please assign 100 points to the top ranked main criterion, then assign between 0 and 100 points for each of the remaining criteria to indicate how important they are relative to the top ranked one. For example, if you assign 100 points to the top ranked criterion and 50 points to second, you are saying the second criterion is about half as important as the first.</p>
+                            <p>Keep in mind that the main criteria represent the performance of their sub-criteria together as a group. When rating the main criteria, you are rating how important that group of sub-criteria are compared to the other groups of sub-criteria.</p>
+                            <p>Once again, keep in mind that the main criteria represent the performance of their sub-criteria together as a group.</p>
+                        </div>
+                    )
+                }
+                if(step > ((steps/2)-1) && (step !== steps)){
+                    return (
+                        <div>
+                            <h3>RATING: Sub-Criteria</h3>
+                            <p><strong>Now, with these criteria and sub-criteria ranked from most to least important, we'll ask you to assign a rating to each.</strong></p>
+                            <p>Please assign 100 points to the top ranked sub-criterion in each group, then assign between 0 and 100 points for each of the remaining sub-criteria to indicate how important they are relative to the top ranked one. For example, if you assign 100 points to the top ranked sub-criterion and 50 points to second, you are saying the second criterion is about half as important as the first.</p>
+                            <p>You may assign the same number of points to more than one criterion if you consider them to be of the same importance.</p>
+                            <p>When you are done rating the criteria for a group, click ‘Advance’ to continue. You can click ‘Go Back’ at any time if you wish to re-rank these criteria.</p>
+                        </div>
+                    )
+                }
+                if(step === steps){
+                    return (
+                        <div>
+                            <h3>Review:</h3>
+                            <p>Please review your ranks and rating for each criterion and sub-criterion. You may edit the ranking or ratings if you wish by clicking ‘Go Back’.  When you are satisfied, please click ‘Submit’ to finish.</p>
+                        </div>
+                    )
+                }
+            }
+            if(this.props.config === 'max100'){
                 if(step < ((steps/2)-1)){
                     return (
                         <div>
@@ -425,7 +486,7 @@ class Objectives extends PureComponent {
                 if(step === steps){
                     return (
                         <div>
-                            <h3>Review</h3>
+                            <h3>Review:</h3>
                             <p>Please review your ranks and rating for each criterion and sub-criterion. You may edit the ranking or ratings if you wish by clicking ‘Go Back’. When you are satisfied, please click ‘Submit’ to finish.</p>
                         </div>
                     )
@@ -549,7 +610,7 @@ class Objectives extends PureComponent {
             }
         }
 
-        const toggleWarning = this.state.toggleAll ? null : (<p>For a reminder of which sub-criteria belong to each criterion, click the ‘Expand All’ button below.</p>)
+        const toggleWarning = this.state.toggleAll ? null : (<p><strong>For a reminder of which sub-criteria belong to each criterion, click the ‘Expand All’ button below.</strong></p>)
 
         return (  
             loading ? loading : (
@@ -579,8 +640,8 @@ class Objectives extends PureComponent {
                             { advanceButton }
                             { submitButton }
                             { infoButton }
-                            { this.props.config !== 'smarter' && this.state.step === ((this.state.steps/2) - 1) || this.state.step === (this.state.steps -1) ? toggleExpandButton : null }
-                            { this.props.config === 'smarter' && this.state.step ===(this.state.steps -1) ? toggleExpandButton : null}
+                            { this.props.config !== 'smarter' && this.state.step === ((this.state.steps/2) - 1) || (this.props.config !== 'smarter' && this.state.step === (this.state.steps -1)) ? toggleExpandButton : null }
+                            { this.props.config === 'smarter' && this.state.step === (this.state.steps -1) ? toggleExpandButton : null}
                         </div>
                         <SortableTree
                             canDrag={ canDrag(this.props.config) }
