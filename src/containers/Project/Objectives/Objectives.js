@@ -467,9 +467,8 @@ class Objectives extends PureComponent {
                     return (
                         <div>
                             <h3>RATING: Criteria</h3>
-                            <p>Please assign 100 points to the top ranked criterion, then assign between 0 and 100 points for each of the remaining criteria to indicate how important they are relative to the top ranked one.</p>
-                            <p>For example, if you assign 100 points to the top ranked criterion and 50 points to second, you are saying the second criterion is about half as important as the first.</p>
-                            <p>Once again, keep in mind that the main criteria represent the performance of their sub-criteria together as a group.</p>
+                            <p>Please assign 100 points to the top ranked criterion, then assign between 0 and 100 points for each of the remaining criteria to indicate how important they are relative to the top ranked one. For example, if you assign 100 points to the top ranked criterion and 50 points to second, you are saying the second criterion is about half as important as the first.</p>
+                            <p>Once again, keep in mind that the main criteria represent the performance of their sub-criteria together as a group. So in this task, you are essentially rating the importance of each group of sub-criteria relative to the highest rank group.</p>
                         </div>
                     )
                 }
