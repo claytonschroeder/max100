@@ -259,9 +259,9 @@ class Objectives extends PureComponent {
                     <label className={ classes.Label }>Direction:</label>
                     <span>{ node.direction && node.direction === 'higher' ? 'H' : 'L' }</span>
                     <label className={ classes.Label }>Worst:</label>
-                    <span>{ node[this.props.config].min }</span>
+                    <span style={{color: 'red'}}>{ node[this.props.config].min }</span>
                     <label className={ classes.Label }>Best:</label>
-                    <span>{ node[this.props.config].max }</span>
+                    <span style={{color: 'green'}}>{ node[this.props.config].max }</span>
                 </Aux>
             ) : null
             
@@ -612,7 +612,9 @@ class Objectives extends PureComponent {
             }
         }
 
-        const toggleWarning = this.state.toggleAll ? null : (<p><strong>For a reminder of which sub-criteria belong to each criterion, click the ‘Expand All’ button below. { this.state.step === (this.state.steps/2 - 1) ? "Then collapse the hierarchy to drag and drop the main criteria in order of importance." : "" }</strong></p>)
+        const rankingToggle = this.state.step === ((this.state.steps/2) -1) ? (<p style={{color: 'red'}}><strong>Click the "Collapse All" button to enable drag and drop.</strong></p>) : null
+
+        const toggleWarning = this.state.toggleAll ? rankingToggle : (<p><strong>For a reminder of which sub-criteria belong to each criterion, click the ‘Expand All’ button below. { this.state.step === (this.state.steps/2 - 1) ? "Then collapse the hierarchy to drag and drop the main criteria in order of importance." : "" }</strong></p>)
 
         return (  
             loading ? loading : (
