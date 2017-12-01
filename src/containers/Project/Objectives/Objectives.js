@@ -404,6 +404,16 @@ class Objectives extends PureComponent {
                         </div>
                     )
                 }
+                if(step === (steps-1)){
+                    return (
+                        <div>
+                            <h4>Main Criteria Rating</h4>
+                            <p>Please assign 100 points to the top ranked criterion, then assign between 0 and 100 points for each of the remaining criteria to indicate how important they are relative to the top ranked one.</p>
+                            <p>For example, if you assign 100 points to the top ranked criterion and 50 points to second, you are saying the second criterion is about half as important as the first.</p>
+                            <p>Once again, keep in mind that you are rating the importance of each criterion group, including their sub-criteria, relative to one another.</p>
+                        </div>
+                    )
+                }
                 if(step > ((steps/2)-1) && (step !== steps)){
                     return (
                         <div>
@@ -412,16 +422,6 @@ class Objectives extends PureComponent {
                             <p>Please assign 100 points to the top ranked sub-criterion, then assign between 0 and 100 points for each of the remaining sub-criteria to indicate how important they are relative to the top ranked one. For example, if you assign 100 points to the top ranked sub-criterion and 50 points to second, you are saying the second criterion is about half as important as the first.</p>
                             <p>You may assign the same number of points to more than one criterion if you consider them to be of the same importance.</p>
                             <p>When you are done rating the criteria for a group, click ‘Advance’ to continue. You can click ‘go back’ at any time if you wish to re-rank these criteria.</p>
-                        </div>
-                    )
-                }
-                if(step === ((steps/2)-1)){
-                    return (
-                        <div>
-                            <h4>Main Criteria Rating</h4>
-                            <p>Please assign 100 points to the top ranked criterion, then assign between 0 and 100 points for each of the remaining criteria to indicate how important they are relative to the top ranked one.</p>
-                            <p>For example, if you assign 100 points to the top ranked criterion and 50 points to second, you are saying the second criterion is about half as important as the first.</p>
-                            <p>Once again, keep in mind that you are rating the importance of each criterion group, including their sub-criteria, relative to one another.</p>
                         </div>
                     )
                 }
