@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import SortableTree, { addNodeUnderParent, removeNodeAtPath, changeNodeAtPath, getFlatDataFromTree } from 'react-sortable-tree';
 import Modal from '../../../components/UI/Modal/Modal';
+import Aux from '../../../hoc/Aux/Aux';
 import axios from '../../../axios';
 import * as actionCreators from '../../../store/actions/index';
 import classes from './Objectives.css';
@@ -84,7 +85,7 @@ class Objectives extends PureComponent {
                 this.props.history.replace('/thank-you');
             })
             .catch(error => {
-                console.log(error)
+                alert(error)
             })
     };
 
@@ -252,6 +253,17 @@ class Objectives extends PureComponent {
                     }}
                 />
             )
+
+            const performanceFields = !node.children ? (
+                <Aux>
+                    <label className={ classes.Label }>Direction:</label>
+                    <span>{ node.direction && node.direction === 'higher' ? 'H' : 'L' }</span>
+                    <label className={ classes.Label }>Worst:</label>
+                    <span>{ node[this.props.config].min }</span>
+                    <label className={ classes.Label }>Best:</label>
+                    <span>{ node[this.props.config].max }</span>
+                </Aux>
+            ) : null
             
             switch(this.props.config){
                 case 'max100':
@@ -265,24 +277,14 @@ class Objectives extends PureComponent {
                     return(
                         <div className={ show }>
                             { scale }
-                            <label className={ classes.Label }>Direction:</label>
-                            <span>{ node.direction && node.direction === 'higher' ? 'H' : 'L' }</span>
-                            <label className={ classes.Label }>Min:</label>
-                            <span>{ node.smarter.min }</span>
-                            <label className={ classes.Label }>Max:</label>
-                            <span>{ node.smarter.max }</span>
+                            { performanceFields }
                         </div>
                     )
                 case 'swing':
                     return(
                         <div className={ show }>
                             { scale }
-                            <label className={ classes.Label }>Direction:</label>
-                            <span>{ node.direction && node.direction === 'higher' ? 'H' : 'L' }</span>
-                            <label className={ classes.Label }>Min:</label>
-                            <span>{ node.swing.min }</span>
-                            <label className={ classes.Label }>Max:</label>
-                            <span>{ node.swing.max }</span>
+                            { performanceFields }
                             <label className={ classes.Label } hidden={ this.state.step < (this.state.steps/2) }>Rating:</label>
                             <input
                                 className={ node.swing.score === '' || (parseInt(node.swing.score) > 100) ? classes.HighlightRed : classes.HighlightGreen }
@@ -610,7 +612,7 @@ class Objectives extends PureComponent {
             }
         }
 
-        const toggleWarning = this.state.toggleAll ? null : (<p><strong>For a reminder of which sub-criteria belong to each criterion, click the ‘Expand All’ button below.</strong></p>)
+        const toggleWarning = this.state.toggleAll ? null : (<p><strong>For a reminder of which sub-criteria belong to each criterion, click the ‘Expand All’ button below. { this.state.step === (this.state.steps/2 - 1) ? "Then collapse the hierarchy to drag and drop the main criteria in order of importance." : "" }</strong></p>)
 
         return (  
             loading ? loading : (
