@@ -97,6 +97,28 @@ class ObjectivesEditor extends PureComponent {
                                     });
                                 }}
                             />
+                            <label className={ classes.Label }>Direction:</label>
+                            <select 
+                                className={ '' } 
+                                type="select" 
+                                value={ node.direction ? node.direction : '' } 
+                                onChange={event => {
+                                    const direction = event.target.value;
+                                    this.props.onTreeUpdate({
+                                        [key]: changeNodeAtPath({
+                                            treeData: this.props[key],
+                                            path,
+                                            getNodeKey,
+                                            newNode: { 
+                                                ...node,
+                                                direction
+                                            },
+                                        }),
+                                    });
+                                }}>
+                                <option value='higher'>Higher is better</option>
+                                <option value='lower'>Lower is better</option>
+                            </select>
                             <label className={ classes.Label }>Min:</label>
                             <input
                                 className={ '' }
@@ -168,6 +190,28 @@ class ObjectivesEditor extends PureComponent {
                                     });
                                 }}
                             />
+                            <label className={ classes.Label }>Direction:</label>
+                            <select 
+                                className={ '' } 
+                                type="select" 
+                                value={ node.direction ? node.direction : '' } 
+                                onChange={event => {
+                                    const direction = event.target.value;
+                                    this.props.onTreeUpdate({
+                                        [key]: changeNodeAtPath({
+                                            treeData: this.props[key],
+                                            path,
+                                            getNodeKey,
+                                            newNode: { 
+                                                ...node,
+                                                direction
+                                            },
+                                        }),
+                                    });
+                                }}>
+                                <option value='higher'>Higher is better</option>
+                                <option value='lower'>Lower is better</option>
+                            </select>
                             <label className={ classes.Label }>Min:</label>
                             <input
                                 className={ '' }
