@@ -119,7 +119,7 @@ class ObjectivesEditor extends PureComponent {
                                 <option value='higher'>Higher is better</option>
                                 <option value='lower'>Lower is better</option>
                             </select>
-                            <label className={ classes.Label }>Min:</label>
+                            <label className={ classes.Label }>Worst:</label>
                             <input
                                 className={ '' }
                                 type='text'
@@ -142,7 +142,7 @@ class ObjectivesEditor extends PureComponent {
                                     });
                                 }}
                             />
-                            <label className={ classes.Label }>Max:</label>
+                            <label className={ classes.Label }>Best:</label>
                             <input
                                 className={ '' }
                                 type='text'
@@ -212,7 +212,7 @@ class ObjectivesEditor extends PureComponent {
                                 <option value='higher'>Higher is better</option>
                                 <option value='lower'>Lower is better</option>
                             </select>
-                            <label className={ classes.Label }>Min:</label>
+                            <label className={ classes.Label }>Worst:</label>
                             <input
                                 className={ '' }
                                 type='number'
@@ -237,7 +237,7 @@ class ObjectivesEditor extends PureComponent {
                                     });
                                 }}
                             />
-                            <label className={ classes.Label }>Max:</label>
+                            <label className={ classes.Label }>Best:</label>
                             <input
                                 className={ '' }
                                 type='number'
@@ -334,8 +334,9 @@ class ObjectivesEditor extends PureComponent {
                                         />
                                     ),
                                     buttons: [
+                                        getInputs(node, path),
                                         <button
-                                            className={ !node.children ? classes.None : '' }
+                                            className={ !node.children ? classes.None : classes.ButtonSpace }
                                             onClick={() => {
                                                 const newChildNode = newNode(key, 'child');
                                                 const addedNode = addNodeUnderParent({
@@ -353,7 +354,7 @@ class ObjectivesEditor extends PureComponent {
                                             Add Sub-Objective
                                         </button>,
                                         <button
-                                            className={ '' }
+                                            className={ classes.ButtonSpace }
                                             onClick={() => {
                                                 this.props.onTreeUpdate({
                                                     [key]: removeNodeAtPath({
@@ -365,8 +366,7 @@ class ObjectivesEditor extends PureComponent {
                                             }}
                                         >
                                             Remove
-                                        </button>,
-                                        getInputs(node, path)
+                                        </button>
                                     ],
                                 })}
                             }
