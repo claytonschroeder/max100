@@ -383,7 +383,7 @@ class Objectives extends PureComponent {
                     return (
                         <div>
                             <h3>Review:</h3>
-                            <p>Please review your ranks and rating for each criterion and sub-criterion. You may edit the ranking or ratings if you wish by clicking ‘Go Back’.  When you are satisfied, please click ‘Submit’ to finish.</p>
+                            <p>Please review your ranks and rating for each criterion and sub-criterion. You may edit the ranking if you wish by clicking ‘Go Back’. When you are satisfied, please click ‘Submit’ to finish.</p>
                         </div>
                     )
                 }
@@ -417,8 +417,9 @@ class Objectives extends PureComponent {
                     return (
                         <div>
                             <h3>RATING: Criteria</h3>
+                            <p><strong>Now, let’s rate the main criteria...</strong></p>
                             <p>Please assign 100 points to the top ranked main criterion, then assign between 0 and 100 points for each of the remaining criteria to indicate how important they are relative to the top ranked one. For example, if you assign 100 points to the top ranked criterion and 50 points to second, you are saying the second criterion is about half as important as the first.</p>
-                            <p>Keep in mind that the main criteria represent the performance of their sub-criteria together as a group. When rating the main criteria, you are rating how important that group of sub-criteria are compared to the other groups of sub-criteria.</p>
+                            <p>Keep in mind that the main criteria represent the performance of their sub-criteria together as a group. When rating the main criteria, you are rating how important that group of sub-criteria is compared to the other groups of sub-criteria.</p>
                             <p>Once again, keep in mind that the main criteria represent the performance of their sub-criteria together as a group.</p>
                         </div>
                     )
@@ -427,7 +428,7 @@ class Objectives extends PureComponent {
                     return (
                         <div>
                             <h3>RATING: Sub-Criteria</h3>
-                            <p><strong>Now, with these criteria and sub-criteria ranked from most to least important, we'll ask you to assign a rating to each.</strong></p>
+                            <p><strong>Now, with these criteria and sub-criteria ranked from most to least important, we'll ask you to assign a rating to each. Let’s start with the sub-criteria here.</strong></p>
                             <p>Please assign 100 points to the top ranked sub-criterion in each group, then assign between 0 and 100 points for each of the remaining sub-criteria to indicate how important they are relative to the top ranked one. For example, if you assign 100 points to the top ranked sub-criterion and 50 points to second, you are saying the second criterion is about half as important as the first.</p>
                             <p>You may assign the same number of points to more than one criterion if you consider them to be of the same importance.</p>
                             <p>When you are done rating the criteria for a group, click ‘Advance’ to continue. You can click ‘Go Back’ at any time if you wish to re-rank these criteria.</p>
