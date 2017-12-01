@@ -459,7 +459,7 @@ class Objectives extends PureComponent {
                         <div>
                             <h3>RANKING: Criteria</h3>
                             <p><strong>Next, please drag and drop the following main criteria to rank them in order from most important to least important.</strong></p>
-                            <p>When ranking the importance of the main criteria, keep in mind that these criteria represent the performance of their sub-criteria together as a group.  That is, for Technical Performance for example, this should be considered as representing the group consisting of both Longevity and Efficacy. For a reminder of which sub-criteria belong to each criterion, click the Expand All button below.</p>
+                            <p>When ranking the importance of the main criteria, keep in mind that these criteria represent the performance of their sub-criteria together as a group.  That is, for Technical Performance for example, this should be considered as representing the group consisting of both Longevity and Efficacy.</p>
                         </div>
                     )
                 }

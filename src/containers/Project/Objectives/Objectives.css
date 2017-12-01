@@ -114,13 +114,13 @@
 .HighlightGreen {
     border: 1px solid green;
     box-shadow: 0px 0px 2px 1px green;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .HighlightRed {
     border: 1px solid red;
     box-shadow: 0px 0px 2px 1px red;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .Intructions {
