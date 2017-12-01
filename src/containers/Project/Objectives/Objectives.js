@@ -235,7 +235,7 @@ class Objectives extends PureComponent {
             const input = this.state.step === this.state.steps ? (<span>{ node[this.props.config].score }</span>) : (
                 <input
                     disabled = { this.state.step === this.state.steps }
-                    className={ node[this.props.config].score === '' ? classes.HighlightRed : classes.HighlightGreen }
+                    className={ node[this.props.config].score === '' || (parseInt(node[this.props.config].score) > 100) ? classes.HighlightRed : classes.HighlightGreen }
                     type='number'
                     min={ 0 }
                     max={ 100 }
@@ -289,7 +289,7 @@ class Objectives extends PureComponent {
                             <span>{ node.swing.max }</span>
                             <label className={ classes.Label } hidden={ this.state.step < (this.state.steps/2) }>Rating:</label>
                             <input
-                                className={ node.swing.score === '' ? classes.HighlightRed : classes.HighlightGreen }
+                                className={ node.swing.score === '' || (parseInt(node.swing.score) > 100) ? classes.HighlightRed : classes.HighlightGreen }
                                 hidden={ this.state.step < (this.state.steps/2) }
                                 type='number'
                                 min={ 0 }
@@ -348,6 +348,7 @@ class Objectives extends PureComponent {
             let invalid
             let validationArray = [];
             allData.map(node => {
+                console.log(typeof(node[key].score))
                 if(!node[key].score){
                     validationArray.push(node.title);
                 }
@@ -360,7 +361,7 @@ class Objectives extends PureComponent {
                 if(step < ((steps-1))){
                     return (
                         <div>
-                            <h4>Sub-Criteria Ranking</h4>
+                            <h3>Sub-Criteria Ranking</h3>
                             <p><strong>First, please rank the following sub-criteria under each main criterion in order from most important to least important.</strong></p>
                             <p>Note that you cannot indicate ties here, but later you will have an opportunity to identify cases that are "too close to call".</p>
                             <p>Please drag and drop the sub-criteria in order from most important to least important.</p>
@@ -370,7 +371,7 @@ class Objectives extends PureComponent {
                 if(step === (steps -1)){
                     return (
                         <div>
-                            <h4>Main-Criteria Ranking</h4>
+                            <h3>Main-Criteria Ranking</h3>
                             <p><strong>Next, please drag and drop the following main criteria to rank them in order from most important to least important.</strong></p>
                             <p>When ranking main criteria, keep in mind that you are ranking the importance of each criterion group, including their sub-criteria, relative to one another.</p>
                         </div>
@@ -379,7 +380,7 @@ class Objectives extends PureComponent {
                 if(step === steps){
                     return (
                         <div>
-                            <h4>Review</h4>
+                            <h3>Review</h3>
                             <p>Please review your ranks and rating for each criterion and sub-criterion. You may edit the ranking or ratings if you wish by clicking ‘Go Back’. When you are satisfied, please click ‘Submit’ to finish.</p>
                         </div>
                     )
@@ -388,7 +389,7 @@ class Objectives extends PureComponent {
                 if(step < ((steps/2)-1)){
                     return (
                         <div>
-                            <h4>Sub-Criteria Ranking</h4>
+                            <h3>RANKING: Sub-Criteria</h3>
                             <p><strong>First, please rank the following sub-criteria under each main criterion in order from most important to least important.</strong></p>
                             <p>Note that you cannot indicate ties here, but later you will have an opportunity to identify cases that are "too close to call".</p>
                             <p>Please drag and drop the sub-criteria in order from most important to least important.</p>
@@ -398,37 +399,37 @@ class Objectives extends PureComponent {
                 if(step === ((steps/2)-1)){
                     return (
                         <div>
-                            <h4>Main-Criteria Ranking</h4>
+                            <h3>RANKING: Criteria</h3>
                             <p><strong>Next, please drag and drop the following main criteria to rank them in order from most important to least important.</strong></p>
-                            <p>When ranking main criteria, keep in mind that you are ranking the importance of each criterion group, including their sub-criteria, relative to one another.</p>
+                            <p>When ranking the importance of the main criteria, keep in mind that these criteria represent the performance of their sub-criteria together as a group.  That is, for Technical Performance for example, this should be considered as representing the group consisting of both Longevity and Efficacy. For a reminder of which sub-criteria belong to each criterion, click the Expand All button below.</p>
                         </div>
                     )
                 }
                 if(step === (steps-1)){
                     return (
                         <div>
-                            <h4>Main Criteria Rating</h4>
+                            <h3>RATING: Criteria</h3>
                             <p>Please assign 100 points to the top ranked criterion, then assign between 0 and 100 points for each of the remaining criteria to indicate how important they are relative to the top ranked one.</p>
                             <p>For example, if you assign 100 points to the top ranked criterion and 50 points to second, you are saying the second criterion is about half as important as the first.</p>
-                            <p>Once again, keep in mind that you are rating the importance of each criterion group, including their sub-criteria, relative to one another.</p>
+                            <p>Once again, keep in mind that the main criteria represent the performance of their sub-criteria together as a group.</p>
                         </div>
                     )
                 }
                 if(step > ((steps/2)-1) && (step !== steps)){
                     return (
                         <div>
-                            <h4>Sub-Criteria Rating</h4>
+                            <h3>RATING: Sub-Criteria</h3>
                             <p><strong>Now, with these criteria and sub-criteria ranked from most to least important, we'll ask you to assign a rating to each.</strong></p>
                             <p>Please assign 100 points to the top ranked sub-criterion, then assign between 0 and 100 points for each of the remaining sub-criteria to indicate how important they are relative to the top ranked one. For example, if you assign 100 points to the top ranked sub-criterion and 50 points to second, you are saying the second criterion is about half as important as the first.</p>
                             <p>You may assign the same number of points to more than one criterion if you consider them to be of the same importance.</p>
-                            <p>When you are done rating the criteria for a group, click ‘Advance’ to continue. You can click ‘go back’ at any time if you wish to re-rank these criteria.</p>
+                            <p>When you are done rating the criteria for a group, click ‘Advance’ to continue. You can click ‘Go Back’ at any time if you wish to re-rank these criteria.</p>
                         </div>
                     )
                 }
                 if(step === steps){
                     return (
                         <div>
-                            <h4>Review</h4>
+                            <h3>Review</h3>
                             <p>Please review your ranks and rating for each criterion and sub-criterion. You may edit the ranking or ratings if you wish by clicking ‘Go Back’. When you are satisfied, please click ‘Submit’ to finish.</p>
                         </div>
                     )
@@ -454,6 +455,15 @@ class Objectives extends PureComponent {
                     index = (step - (steps/2))
                     if(index === tree.length){
                         tree.map(objective => {
+                            let score = objective[this.props.config].score;
+                            if(score === ''){
+                                score = 0
+                            } else {
+                                score = parseInt(score)
+                            }
+                            if(score > 100){
+                                return validateAdvanceArray.push(objective)
+                            }
                             if(objective[this.props.config].score === ''){
                                 return validateAdvanceArray.push(objective)
                             }
@@ -462,6 +472,15 @@ class Objectives extends PureComponent {
                     tree.map((objs, i) => {
                         if(i === index){
                             objs.children.map(child => {
+                                let score = child[this.props.config].score;
+                                if(score === ''){
+                                    score = 0
+                                } else {
+                                    score = parseInt(score)
+                                }
+                                if(score > 100){
+                                    return validateAdvanceArray.push(child)
+                                }
                                 if(child[this.props.config].score === ''){
                                    return validateAdvanceArray.push(child)
                                 }
